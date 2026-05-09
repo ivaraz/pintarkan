@@ -35,7 +35,7 @@
                     <!-- Trigger -->
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 text-sm text-gray-500 hover:text-gray-700">
-                            <div>{{ Auth::user()->student->name }}</div>
+                            <div>{{ Auth::user()->name }}</div>
 
                             <div class="ms-1">
                                 ▼
