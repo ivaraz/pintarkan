@@ -15,4 +15,8 @@ class Enrollment extends Model
     public function course() {
         return $this->belongsTo(Course::class);
     }
+
+    protected $casts = [
+        'enrolled_at' => 'datetime',
+    ];
 }

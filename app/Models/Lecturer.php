@@ -8,7 +8,7 @@ class Lecturer extends Model
 {
     protected $fillable = ['user_id', 'name', 'nidn'];
 
-    public function user() {
+    public function users() {
         return $this->belongsTo(User::class);
     }
 

@@ -64,7 +64,6 @@
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('role') border-red-500 @enderror"
                             required onchange="toggleRoleFields()">
                             <option value="">-- Pilih Role --</option>
-                            <option value="admin" {{ old('role') === 'admin' ? 'selected' : '' }}>Admin</option>
                             <option value="lecturer" {{ old('role') === 'lecturer' ? 'selected' : '' }}>Dosen</option>
                             <option value="student" {{ old('role') === 'student' ? 'selected' : '' }}>Mahasiswa</option>
                         </select>

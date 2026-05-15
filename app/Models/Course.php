@@ -8,19 +8,19 @@ class Course extends Model
 {
     protected $fillable = ['lecturer_id', 'title', 'description'];
 
-    public function lecturer() {
-        return $this->belongsTo(Lecturer::class);
+    public function lecturers() {
+        return $this->belongsTo(Lecturer::class, 'lecturer_id');
     }
 
-    public function material() {
+    public function materials() {
         return $this->hasMany(Material::class);
     }
 
-    public function assignment() {
+    public function assignments() {
         return $this->hasMany(Assignment::class);
     }
 
-    public function enrollment() {
+    public function enrollments() {
         return $this->hasMany(Enrollment::class);
     }
 }
