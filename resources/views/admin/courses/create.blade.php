@@ -1,84 +1,287 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container mx-auto px-4 py-8">
-        <div class="max-w-2xl mx-auto">
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <h1 class="text-2xl font-bold text-gray-800 mb-6">Tambah Matkul Baru</h1>
 
-                @if ($errors->any())
-                    <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
-                        <ul class="list-disc list-inside">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
+    <div class="min-h-screen bg-gray-50">
+
+        {{-- Background Blur --}}
+        <div class="fixed top-0 left-0 w-72 h-72 bg-blue-200 opacity-20 rounded-full blur-3xl -z-10">
+        </div>
+
+        <div class="fixed bottom-0 right-0 w-96 h-96 bg-blue-100 opacity-30 rounded-full blur-3xl -z-10">
+        </div>
+
+        <div class="max-w-4xl mx-auto px-6 lg:px-8 py-8">
+
+            {{-- Header --}}
+            <div class="bg-white border border-gray-200 rounded-3xl shadow-sm p-8 mb-8">
+
+                <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+
+                    {{-- Left --}}
+                    <div class="flex items-start gap-5">
+
+                        <div
+                            class="w-20 h-20 rounded-3xl bg-blue-100 text-blue-600 flex items-center justify-center text-3xl shrink-0">
+
+                            <i class="fa-solid fa-book-open"></i>
+
+                        </div>
+
+                        <div>
+
+                            <div
+                                class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 text-blue-700 text-sm font-medium border border-blue-100 mb-5">
+
+                                <i class="fa-solid fa-layer-group"></i>
+
+                                Course Management
+
+                            </div>
+
+                            <h1 class="text-4xl font-bold text-gray-900">
+
+                                Tambah Mata Kuliah
+
+                            </h1>
+
+                            <p class="text-gray-500 mt-3 text-lg">
+
+                                Buat mata kuliah baru untuk sistem LMS PintarKan.
+
+                            </p>
+
+                        </div>
+
                     </div>
-                @endif
 
-                <form action="{{ route('admin.courses.store') }}" method="POST" class="space-y-6">
+                    {{-- Back --}}
+                    <div>
+
+                        <a href="{{ route('admin.courses.index') }}"
+                            class="inline-flex items-center gap-2 px-5 py-3 border border-gray-300 hover:bg-gray-100 text-gray-700 rounded-2xl transition">
+
+                            <i class="fa-solid fa-arrow-left"></i>
+
+                            Kembali
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {{-- Error Alert --}}
+            @if ($errors->any())
+                <div class="mb-6 p-5 rounded-2xl border border-red-200 bg-red-50 text-red-700">
+
+                    <div class="flex items-start gap-4">
+
+                        <div class="text-xl mt-0.5">
+
+                            <i class="fa-solid fa-circle-xmark"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h3 class="font-semibold">
+                                Terjadi Kesalahan
+                            </h3>
+
+                            <ul class="mt-2 space-y-1 text-sm">
+
+                                @foreach ($errors->all() as $error)
+                                    <li>
+                                        • {{ $error }}
+                                    </li>
+                                @endforeach
+
+                            </ul>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            @endif
+
+            {{-- Form Card --}}
+            <div class="bg-white border border-gray-200 rounded-3xl shadow-sm overflow-hidden">
+
+                {{-- Header --}}
+                <div class="px-8 py-6 border-b border-gray-100">
+
+                    <div class="flex items-center gap-3">
+
+                        <div
+                            class="w-14 h-14 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center text-xl">
+
+                            <i class="fa-solid fa-file-circle-plus"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h2 class="text-2xl font-bold text-gray-900">
+
+                                Form Mata Kuliah
+
+                            </h2>
+
+                            <p class="text-gray-500 mt-1">
+
+                                Lengkapi informasi berikut untuk membuat course baru.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {{-- Form --}}
+                <form action="{{ route('admin.courses.store') }}" method="POST" class="p-8 space-y-8">
+
                     @csrf
 
-                    <!-- Judul Matkul -->
+                    {{-- Title --}}
                     <div>
-                        <label for="title" class="block text-sm font-medium text-gray-700 mb-2">
-                            Judul Matkul <span class="text-red-500">*</span>
+
+                        <label for="title" class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-3">
+
+                            <i class="fa-solid fa-book text-blue-600"></i>
+
+                            Judul Mata Kuliah
+
+                            <span class="text-red-500">*</span>
+
                         </label>
+
                         <input type="text" id="title" name="title" value="{{ old('title') }}"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('title') border-red-500 @enderror"
-                            placeholder="Contoh: Pemrograman Web" required>
+                            placeholder="Contoh: Pemrograman Web"
+                            class="w-full px-5 py-4 rounded-2xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition bg-gray-50 text-gray-900 placeholder-gray-400
+                            @error('title') border-red-500 focus:ring-red-500 focus:border-red-500 @enderror"
+                            required>
+
                         @error('title')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            <p class="mt-2 text-sm text-red-500 flex items-center gap-2">
+
+                                <i class="fa-solid fa-circle-exclamation"></i>
+
+                                {{ $message }}
+
+                            </p>
                         @enderror
+
                     </div>
 
-                    <!-- Dosen -->
+                    {{-- Lecturer --}}
                     <div>
-                        <label for="lecturer_id" class="block text-sm font-medium text-gray-700 mb-2">
-                            Pilih Dosen <span class="text-red-500">*</span>
+
+                        <label for="lecturer_id" class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-3">
+
+                            <i class="fa-solid fa-chalkboard-user text-green-600"></i>
+
+                            Dosen Pengampu
+
+                            <span class="text-red-500">*</span>
+
                         </label>
+
                         <select id="lecturer_id" name="lecturer_id"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('lecturer_id') border-red-500 @enderror"
+                            class="w-full px-5 py-4 rounded-2xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition bg-gray-50 text-gray-900
+                            @error('lecturer_id') border-red-500 focus:ring-red-500 focus:border-red-500 @enderror"
                             required>
-                            <option value="">-- Pilih Dosen --</option>
+
+                            <option value="">
+                                -- Pilih Dosen --
+                            </option>
+
                             @foreach ($lecturers as $lecturer)
                                 <option value="{{ $lecturer->id }}"
                                     {{ old('lecturer_id') == $lecturer->id ? 'selected' : '' }}>
-                                    {{ $lecturer->name }} ({{ $lecturer->nidn }})
+
+                                    {{ $lecturer->name }}
+                                    ({{ $lecturer->nidn }})
                                 </option>
                             @endforeach
+
                         </select>
+
                         @error('lecturer_id')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            <p class="mt-2 text-sm text-red-500 flex items-center gap-2">
+
+                                <i class="fa-solid fa-circle-exclamation"></i>
+
+                                {{ $message }}
+
+                            </p>
                         @enderror
+
                     </div>
 
-                    <!-- Deskripsi -->
+                    {{-- Description --}}
                     <div>
-                        <label for="description" class="block text-sm font-medium text-gray-700 mb-2">
+
+                        <label for="description" class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-3">
+
+                            <i class="fa-solid fa-align-left text-purple-600"></i>
+
                             Deskripsi
+
                         </label>
-                        <textarea id="description" name="description" rows="5"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('description') border-red-500 @enderror"
-                            placeholder="Deskripsi matkul...">{{ old('description') }}</textarea>
+
+                        <textarea id="description" name="description" rows="6" placeholder="Deskripsi mata kuliah..."
+                            class="w-full px-5 py-4 rounded-2xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition bg-gray-50 text-gray-900 placeholder-gray-400 resize-none
+                            @error('description') border-red-500 focus:ring-red-500 focus:border-red-500 @enderror">{{ old('description') }}</textarea>
+
                         @error('description')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            <p class="mt-2 text-sm text-red-500 flex items-center gap-2">
+
+                                <i class="fa-solid fa-circle-exclamation"></i>
+
+                                {{ $message }}
+
+                            </p>
                         @enderror
+
                     </div>
 
-                    <!-- Buttons -->
-                    <div class="flex gap-3 pt-4">
+                    {{-- Actions --}}
+                    <div class="flex flex-col sm:flex-row items-center gap-4 pt-4">
+
+                        {{-- Submit --}}
                         <button type="submit"
-                            class="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition">
-                            Simpan Matkul
+                            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl transition shadow-lg shadow-blue-100 font-semibold">
+
+                            <i class="fa-solid fa-floppy-disk"></i>
+
+                            Simpan Mata Kuliah
+
                         </button>
+
+                        {{-- Cancel --}}
                         <a href="{{ route('admin.courses.index') }}"
-                            class="flex-1 bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg text-center transition">
+                            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 border border-gray-300 hover:bg-gray-100 text-gray-700 rounded-2xl transition font-semibold">
+
+                            <i class="fa-solid fa-xmark"></i>
+
                             Batal
+
                         </a>
+
                     </div>
+
                 </form>
+
             </div>
+
         </div>
+
     </div>
+
 @endsection

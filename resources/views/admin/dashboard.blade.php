@@ -1,127 +1,180 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div class="min-h-screen bg-gray-50">
 
-        <div class="max-w-7xl mx-auto space-y-8">
+        {{-- Background Blur --}}
+        <div class="fixed top-0 left-0 w-72 h-72 bg-blue-200 opacity-20 rounded-full blur-3xl -z-10">
+        </div>
+
+        <div class="fixed bottom-0 right-0 w-96 h-96 bg-blue-100 opacity-30 rounded-full blur-3xl -z-10">
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 py-8 space-y-8">
 
             {{-- HEADER --}}
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div class="bg-white border border-gray-200 rounded-3xl shadow-sm p-8">
 
-                <div>
-                    <h1 class="text-3xl font-bold text-gray-900">
-                        Dashboard Admin
-                    </h1>
+                <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
 
-                    <p class="text-gray-500 mt-2">
-                        Kelola seluruh aktivitas sistem LMS dalam satu tempat.
-                    </p>
-                </div>
+                    <div>
 
-                <div class="flex items-center gap-3">
+                        <div
+                            class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 text-blue-700 text-sm font-medium border border-blue-100 mb-5">
 
-                    <a href="{{ route('admin.users.create') }}"
-                        class="inline-flex items-center px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl shadow-sm transition">
+                            <i class="fa-solid fa-shield-halved"></i>
 
-                        + Tambah User
-                    </a>
+                            Admin Panel
 
-                    <a href="{{ route('admin.courses.create') }}"
-                        class="inline-flex items-center px-5 py-3 border border-gray-300 hover:bg-gray-100 text-gray-700 rounded-2xl transition">
+                        </div>
 
-                        + Tambah Course
-                    </a>
+                        <h1 class="text-4xl font-bold text-gray-900">
+                            Dashboard Admin
+                        </h1>
+
+                        <p class="text-gray-500 mt-3 text-lg">
+                            Kelola user, course, dan aktivitas LMS PintarKan.
+                        </p>
+
+                    </div>
+
+                    {{-- Actions --}}
+                    <div class="flex flex-wrap items-center gap-3">
+
+                        <a href="{{ route('admin.users.create') }}"
+                            class="inline-flex items-center gap-2 px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl transition shadow-lg shadow-blue-100">
+
+                            <i class="fa-solid fa-user-plus"></i>
+
+                            Tambah User
+
+                        </a>
+
+                        <a href="{{ route('admin.courses.create') }}"
+                            class="inline-flex items-center gap-2 px-5 py-3 bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 rounded-2xl transition">
+
+                            <i class="fa-solid fa-book-open"></i>
+
+                            Tambah Course
+
+                        </a>
+
+                    </div>
 
                 </div>
 
             </div>
 
             {{-- STATISTICS --}}
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="grid grid-cols-2 xl:grid-cols-4 gap-6">
 
-                {{-- USERS --}}
-                <div
-                    class="bg-white rounded-3xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200 p-6">
+                {{-- Users --}}
+                <div class="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm hover:shadow-lg transition">
 
-                    <div class="flex flex-col items-center text-center">
+                    <div class="flex items-start justify-between">
 
-                        <div class="w-16 h-16 rounded-2xl bg-blue-100 flex items-center justify-center text-3xl mb-4">
-                            👥
+                        <div>
+
+                            <p class="text-sm font-medium text-gray-500">
+                                Total Users
+                            </p>
+
+                            <h2 class="text-4xl font-bold text-gray-900 mt-3">
+                                {{ $totalUsers ?? 0 }}
+                            </h2>
+
                         </div>
 
-                        <p class="text-sm font-medium text-gray-500">
-                            Total Users
-                        </p>
+                        <div
+                            class="w-14 h-14 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center text-2xl">
 
-                        <h2 class="text-4xl font-bold text-gray-900 mt-3">
-                            {{ $totalUsers ?? 0 }}
-                        </h2>
+                            <i class="fa-solid fa-users"></i>
+
+                        </div>
 
                     </div>
 
                 </div>
 
-                {{-- DOSEN --}}
-                <div
-                    class="bg-white rounded-3xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200 p-6">
+                {{-- Lecturers --}}
+                <div class="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm hover:shadow-lg transition">
 
-                    <div class="flex flex-col items-center text-center">
+                    <div class="flex items-start justify-between">
 
-                        <div class="w-16 h-16 rounded-2xl bg-green-100 flex items-center justify-center text-3xl mb-4">
-                            👨‍🏫
+                        <div>
+
+                            <p class="text-sm font-medium text-gray-500">
+                                Dosen
+                            </p>
+
+                            <h2 class="text-4xl font-bold text-gray-900 mt-3">
+                                {{ $totalLecturers ?? 0 }}
+                            </h2>
+
                         </div>
 
-                        <p class="text-sm font-medium text-gray-500">
-                            Dosen
-                        </p>
+                        <div
+                            class="w-14 h-14 rounded-2xl bg-green-100 text-green-600 flex items-center justify-center text-2xl">
 
-                        <h2 class="text-4xl font-bold text-gray-900 mt-3">
-                            {{ $totalLecturers ?? 0 }}
-                        </h2>
+                            <i class="fa-solid fa-chalkboard-user"></i>
+
+                        </div>
 
                     </div>
 
                 </div>
 
-                {{-- MAHASISWA --}}
-                <div
-                    class="bg-white rounded-3xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200 p-6">
+                {{-- Students --}}
+                <div class="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm hover:shadow-lg transition">
 
-                    <div class="flex flex-col items-center text-center">
+                    <div class="flex items-start justify-between">
 
-                        <div class="w-16 h-16 rounded-2xl bg-purple-100 flex items-center justify-center text-3xl mb-4">
-                            👨‍🎓
+                        <div>
+
+                            <p class="text-sm font-medium text-gray-500">
+                                Mahasiswa
+                            </p>
+
+                            <h2 class="text-4xl font-bold text-gray-900 mt-3">
+                                {{ $totalStudents ?? 0 }}
+                            </h2>
+
                         </div>
 
-                        <p class="text-sm font-medium text-gray-500">
-                            Mahasiswa
-                        </p>
+                        <div
+                            class="w-14 h-14 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center text-2xl">
 
-                        <h2 class="text-4xl font-bold text-gray-900 mt-3">
-                            {{ $totalStudents ?? 0 }}
-                        </h2>
+                            <i class="fa-solid fa-user-graduate"></i>
+
+                        </div>
 
                     </div>
 
                 </div>
 
-                {{-- COURSES --}}
-                <div
-                    class="bg-white rounded-3xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200 p-6">
+                {{-- Courses --}}
+                <div class="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm hover:shadow-lg transition">
 
-                    <div class="flex flex-col items-center text-center">
+                    <div class="flex items-start justify-between">
 
-                        <div class="w-16 h-16 rounded-2xl bg-orange-100 flex items-center justify-center text-3xl mb-4">
-                            📚
+                        <div>
+
+                            <p class="text-sm font-medium text-gray-500">
+                                Mata Kuliah
+                            </p>
+
+                            <h2 class="text-4xl font-bold text-gray-900 mt-3">
+                                {{ $totalCourses ?? 0 }}
+                            </h2>
+
                         </div>
 
-                        <p class="text-sm font-medium text-gray-500">
-                            Mata Kuliah
-                        </p>
+                        <div
+                            class="w-14 h-14 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center text-2xl">
 
-                        <h2 class="text-4xl font-bold text-gray-900 mt-3">
-                            {{ $totalCourses ?? 0 }}
-                        </h2>
+                            <i class="fa-solid fa-book-open"></i>
+
+                        </div>
 
                     </div>
 
@@ -132,71 +185,122 @@
             {{-- MAIN CONTENT --}}
             <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
 
-                {{-- RECENT COURSES --}}
+                {{-- COURSES --}}
                 <div class="xl:col-span-2">
-                    <div class="bg-white rounded-3xl border border-gray-200 shadow-sm p-6">
-                        <div class="flex items-center justify-between mb-6">
+
+                    <div class="bg-white border border-gray-200 rounded-3xl shadow-sm p-6">
+
+                        {{-- Header --}}
+                        <div class="flex items-center justify-between mb-8">
+
                             <div>
+
                                 <h2 class="text-2xl font-bold text-gray-900">
                                     Mata Kuliah Terbaru
                                 </h2>
-                                <p class="text-sm text-gray-500 mt-1">
-                                    Daftar course terbaru yang ditambahkan.
+
+                                <p class="text-gray-500 mt-2">
+                                    Course terbaru yang ditambahkan ke sistem.
                                 </p>
+
                             </div>
+
                             <a href="{{ route('admin.courses.index') }}"
-                                class="text-blue-600 hover:text-blue-700 text-sm font-semibold transition">
+                                class="text-blue-600 hover:text-blue-700 font-semibold text-sm transition">
+
                                 Lihat Semua
+
                             </a>
 
                         </div>
 
-                        <div class="space-y-4">
+                        {{-- Course List --}}
+                        <div class="space-y-5">
 
                             @forelse ($courses as $course)
                                 <div
-                                    class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 p-5 rounded-2xl border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition">
+                                    class="border border-gray-200 rounded-3xl p-6 hover:border-blue-300 hover:shadow-md transition bg-gray-50/50">
 
-                                    <div class="flex-1">
+                                    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
 
-                                        <h3 class="text-lg font-semibold text-gray-900">
-                                            {{ $course->title }}
-                                        </h3>
+                                        {{-- Content --}}
+                                        <div class="flex-1">
 
-                                        <p class="text-sm text-gray-500 mt-2">
-                                            {{ Str::limit($course->description, 100) }}
-                                        </p>
+                                            <div class="flex items-start gap-4">
 
-                                        <div class="flex flex-wrap gap-3 mt-4">
+                                                <div
+                                                    class="w-14 h-14 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center text-xl shrink-0">
 
-                                            <div class="px-3 py-1 bg-white border rounded-lg text-sm text-gray-600">
-                                                👨‍🏫
-                                                {{ $course->lecturers->name ?? 'Belum Ada Dosen' }}
+                                                    <i class="fa-solid fa-book"></i>
+
+                                                </div>
+
+                                                <div>
+
+                                                    <h3 class="text-xl font-bold text-gray-900">
+
+                                                        {{ $course->title }}
+
+                                                    </h3>
+
+                                                    <p class="text-gray-500 mt-2 leading-relaxed">
+
+                                                        {{ Str::limit($course->description, 120) }}
+
+                                                    </p>
+
+                                                </div>
+
                                             </div>
 
-                                            <div class="px-3 py-1 bg-white border rounded-lg text-sm text-gray-600">
-                                                👨‍🎓
-                                                {{ $course->enrollments->count() }}
-                                                Mahasiswa
+                                            {{-- Meta --}}
+                                            <div class="flex flex-wrap items-center gap-3 mt-5">
+
+                                                <div
+                                                    class="inline-flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-xl text-sm text-gray-600">
+
+                                                    <i class="fa-solid fa-chalkboard-user text-green-600"></i>
+
+                                                    {{ $course->lecturer->name ?? 'Belum Ada Dosen' }}
+
+                                                </div>
+
+                                                <div
+                                                    class="inline-flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-xl text-sm text-gray-600">
+
+                                                    <i class="fa-solid fa-user-graduate text-purple-600"></i>
+
+                                                    {{ $course->enrollments->count() }}
+                                                    Mahasiswa
+
+                                                </div>
+
                                             </div>
 
                                         </div>
 
-                                    </div>
+                                        {{-- Actions --}}
+                                        <div class="flex items-center gap-3">
 
-                                    <div class="flex items-center gap-3">
+                                            <a href="{{ route('admin.courses.show', $course->id) }}"
+                                                class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition">
 
-                                        <a href="{{ route('admin.courses.show', $course->id) }}"
-                                            class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-xl transition">
+                                                <i class="fa-solid fa-eye"></i>
 
-                                            Detail
-                                        </a>
+                                                Detail
 
-                                        <a href="{{ route('admin.courses.edit', $course->id) }}"
-                                            class="px-4 py-2 border border-gray-300 hover:bg-gray-100 text-gray-700 text-sm rounded-xl transition">
+                                            </a>
 
-                                            Edit
-                                        </a>
+                                            <a href="{{ route('admin.courses.edit', $course->id) }}"
+                                                class="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 hover:bg-gray-100 text-gray-700 rounded-xl transition">
+
+                                                <i class="fa-solid fa-pen"></i>
+
+                                                Edit
+
+                                            </a>
+
+                                        </div>
 
                                     </div>
 
@@ -204,19 +308,27 @@
 
                             @empty
 
-                                <div
-                                    class="flex flex-col items-center justify-center py-16 text-center border border-dashed border-gray-300 rounded-3xl">
+                                {{-- Empty State --}}
+                                <div class="border border-dashed border-gray-300 rounded-3xl p-16 text-center bg-gray-50">
 
-                                    <div class="text-6xl mb-4">
-                                        📚
+                                    <div
+                                        class="w-20 h-20 rounded-3xl bg-blue-100 text-blue-600 flex items-center justify-center mx-auto text-3xl mb-6">
+
+                                        <i class="fa-solid fa-book-open"></i>
+
                                     </div>
 
-                                    <h3 class="text-xl font-bold text-gray-900">
+                                    <h3 class="text-2xl font-bold text-gray-900">
+
                                         Belum Ada Mata Kuliah
+
                                     </h3>
 
-                                    <p class="text-gray-500 mt-2">
-                                        Tambahkan course pertama untuk memulai LMS.
+                                    <p class="text-gray-500 mt-3 max-w-md mx-auto">
+
+                                        Tambahkan course pertama untuk memulai
+                                        pembelajaran di PintarKan.
+
                                     </p>
 
                                 </div>
@@ -224,75 +336,115 @@
 
                         </div>
 
+                        {{-- Pagination --}}
+                        <div class="mt-8">
+
+                            {{ $courses->links() }}
+
+                        </div>
+
                     </div>
-                    {{ $courses->links() }}
 
                 </div>
 
                 {{-- QUICK ACTION --}}
                 <div>
 
-                    <div class="bg-white rounded-3xl border border-gray-200 shadow-sm p-6">
+                    <div class="bg-white border border-gray-200 rounded-3xl shadow-sm p-6">
 
-                        <h2 class="text-2xl font-bold text-gray-900 mb-6">
+                        <h2 class="text-2xl font-bold text-gray-900">
                             Aksi Cepat
                         </h2>
 
+                        <p class="text-gray-500 mt-2 mb-6">
+                            Shortcut untuk pengelolaan LMS.
+                        </p>
+
                         <div class="space-y-4">
 
+                            {{-- User --}}
                             <a href="{{ route('admin.users.create') }}"
-                                class="flex items-center gap-4 p-4 rounded-2xl border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition group">
+                                class="flex items-center gap-4 p-5 rounded-2xl border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition group">
 
-                                <div class="w-14 h-14 rounded-2xl bg-blue-100 flex items-center justify-center text-2xl">
-                                    👤
+                                <div
+                                    class="w-14 h-14 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center text-xl">
+
+                                    <i class="fa-solid fa-user-plus"></i>
+
                                 </div>
 
                                 <div>
+
                                     <h3 class="font-semibold text-gray-900 group-hover:text-blue-700">
+
                                         Tambah User
+
                                     </h3>
 
-                                    <p class="text-sm text-gray-500">
+                                    <p class="text-sm text-gray-500 mt-1">
+
                                         Tambah admin, dosen, atau mahasiswa
+
                                     </p>
+
                                 </div>
 
                             </a>
 
+                            {{-- Course --}}
                             <a href="{{ route('admin.courses.create') }}"
-                                class="flex items-center gap-4 p-4 rounded-2xl border border-gray-200 hover:border-green-300 hover:bg-green-50 transition group">
+                                class="flex items-center gap-4 p-5 rounded-2xl border border-gray-200 hover:border-green-300 hover:bg-green-50 transition group">
 
-                                <div class="w-14 h-14 rounded-2xl bg-green-100 flex items-center justify-center text-2xl">
-                                    📚
+                                <div
+                                    class="w-14 h-14 rounded-2xl bg-green-100 text-green-600 flex items-center justify-center text-xl">
+
+                                    <i class="fa-solid fa-book-open"></i>
+
                                 </div>
 
                                 <div>
+
                                     <h3 class="font-semibold text-gray-900 group-hover:text-green-700">
+
                                         Tambah Course
+
                                     </h3>
 
-                                    <p class="text-sm text-gray-500">
+                                    <p class="text-sm text-gray-500 mt-1">
+
                                         Buat mata kuliah baru
+
                                     </p>
+
                                 </div>
 
                             </a>
 
+                            {{-- Manage --}}
                             <a href="{{ route('admin.courses.index') }}"
-                                class="flex items-center gap-4 p-4 rounded-2xl border border-gray-200 hover:border-purple-300 hover:bg-purple-50 transition group">
+                                class="flex items-center gap-4 p-5 rounded-2xl border border-gray-200 hover:border-purple-300 hover:bg-purple-50 transition group">
 
-                                <div class="w-14 h-14 rounded-2xl bg-purple-100 flex items-center justify-center text-2xl">
-                                    📋
+                                <div
+                                    class="w-14 h-14 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center text-xl">
+
+                                    <i class="fa-solid fa-layer-group"></i>
+
                                 </div>
 
                                 <div>
+
                                     <h3 class="font-semibold text-gray-900 group-hover:text-purple-700">
+
                                         Kelola Course
+
                                     </h3>
 
-                                    <p class="text-sm text-gray-500">
+                                    <p class="text-sm text-gray-500 mt-1">
+
                                         Atur seluruh mata kuliah
+
                                     </p>
+
                                 </div>
 
                             </a>
