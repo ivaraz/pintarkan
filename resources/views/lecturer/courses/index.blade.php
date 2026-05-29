@@ -18,7 +18,7 @@
                     </p>
                 </div>
 
-                <a href="{{ route('dosen.courses.create') }}"
+                <a href="{{ route('lecturer.courses.create') }}"
                     class="inline-flex items-center justify-center px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-sm transition">
 
                     + Tambah Mata Kuliah
@@ -64,7 +64,7 @@
                         Mulai dengan membuat course pertama Anda.
                     </p>
 
-                    <a href="{{ route('dosen.courses.create') }}"
+                    <a href="{{ route('lecturer.courses.create') }}"
                         class="mt-8 inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl transition">
 
                         + Tambah Mata Kuliah
@@ -157,28 +157,28 @@
                                 <div class="flex flex-wrap items-center gap-3">
 
                                     {{-- DETAIL --}}
-                                    <a href="{{ route('dosen.courses.show', $course->id) }}"
+                                    <a href="{{ route('lecturer.courses.show', $course->id) }}"
                                         class="inline-flex items-center justify-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-xl transition">
 
                                         Detail
                                     </a>
 
                                     {{-- EDIT --}}
-                                    <a href="{{ route('dosen.courses.edit', $course->id) }}"
+                                    <a href="{{ route('lecturer.courses.edit', $course->id) }}"
                                         class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 hover:bg-gray-100 text-gray-700 text-sm rounded-xl transition">
 
                                         Edit
                                     </a>
 
                                     {{-- ADD STUDENT --}}
-                                    <a href="{{ route('dosen.courses.students', $course->id) }}"
+                                    <a href="{{ route('lecturer.courses.students', $course->id) }}"
                                         class="inline-flex items-center justify-center px-4 py-2 border border-green-300 bg-green-50 hover:bg-green-100 text-green-700 text-sm rounded-xl transition">
 
                                         + Mahasiswa
                                     </a>
 
                                     {{-- DELETE --}}
-                                    <form action="{{ route('dosen.courses.destroy', $course->id) }}" method="POST"
+                                    <form action="{{ route('lecturer.courses.destroy', $course->id) }}" method="POST"
                                         onsubmit="return confirm('Yakin ingin menghapus mata kuliah ini?')">
 
                                         @csrf

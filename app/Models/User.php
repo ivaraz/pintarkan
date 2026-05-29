@@ -27,12 +27,33 @@ class User extends Authenticatable
         return $this->hasOne(Lecturer::class);
     }
 
+    public function getNameAttribute()
+    {
+        if ($this->hasRole('admin')) {
+            return 'Admin';
+        }
+        if ($this->relationLoaded('lecturer') && $this->lecturer) {
+            return $this->lecturer->name;
+        }
+        if ($this->relationLoaded('student') && $this->student) {
+            return $this->student->name;
+        }
+        // Fallbacks if relationship is not loaded (lazy load safely)
+        if ($this->lecturer) {
+            return $this->lecturer->name;
+        }
+        if ($this->student) {
+            return $this->student->name;
+        }
+        return 'User';
+    }
+
     public function getDashboardRouteAttribute()
     {
         return match (true) {
             $this->hasRole('admin') => route('admin.dashboard'),
-            $this->hasRole('dosen') => route('dosen.dashboard'),
-            default => route('mahasiswa.dashboard'),
+            $this->hasRole('lecturer') => route('lecturer.dashboard'),
+            default => route('student.dashboard'),
         };
     }
 }

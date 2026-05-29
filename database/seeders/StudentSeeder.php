@@ -14,13 +14,31 @@ class StudentSeeder extends Seeder
     {
         $faker = Faker::create('id_ID');
 
+        $studentsData = [
+            ['name' => 'Rian Hidayat', 'npm' => '2310631170001'],
+            ['name' => 'Siti Rahmawati', 'npm' => '2310631170002'],
+            ['name' => 'Fikri Ardiansyah', 'npm' => '2310631170003'],
+            ['name' => 'Aditya Pratama', 'npm' => '2310631170004'],
+            ['name' => 'Dinda Lestari', 'npm' => '2310631170005'],
+            ['name' => 'Fajar Nugraha', 'npm' => '2310631170006'],
+            ['name' => 'Amalia Putri', 'npm' => '2310631170007'],
+            ['name' => 'Rizky Ramadhan', 'npm' => '2310631170008'],
+            ['name' => 'Fitriani', 'npm' => '2310631170009'],
+            ['name' => 'Bambang Pamungkas', 'npm' => '2310631170010'],
+        ];
+
         $users = User::role('student')->get();
 
-        foreach ($users as $user) {
+        foreach ($users as $index => $user) {
+            $data = $studentsData[$index] ?? [
+                'name' => $faker->name(),
+                'npm' => $faker->unique()->numerify('231063117####'),
+            ];
+
             Student::create([
                 'user_id' => $user->id,
-                'name' => $faker->name(),
-                'npm' => $faker->unique()->numerify('23######'),
+                'name' => $data['name'],
+                'npm' => $data['npm'],
             ]);
         }
     }

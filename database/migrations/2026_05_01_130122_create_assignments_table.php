@@ -16,7 +16,9 @@ return new class extends Migration
             $table->foreignId('course_id')->constrained()->cascadeOnDelete();
             $table->string('title');
             $table->text('description')->nullable();
-            $table->timestamp('due_date');
+            $table->string('file')->nullable();
+            $table->dateTime('due_date');
+            $table->integer('max_score')->default(100);
             $table->timestamps();
         });
     }

@@ -38,29 +38,6 @@
 
                     </div>
 
-                    {{-- Actions --}}
-                    <div class="flex flex-wrap items-center gap-3">
-
-                        <a href="{{ route('admin.users.create') }}"
-                            class="inline-flex items-center gap-2 px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl transition shadow-lg shadow-blue-100">
-
-                            <i class="fa-solid fa-user-plus"></i>
-
-                            Tambah User
-
-                        </a>
-
-                        <a href="{{ route('admin.courses.create') }}"
-                            class="inline-flex items-center gap-2 px-5 py-3 bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 rounded-2xl transition">
-
-                            <i class="fa-solid fa-book-open"></i>
-
-                            Tambah Course
-
-                        </a>
-
-                    </div>
-
                 </div>
 
             </div>
@@ -261,7 +238,7 @@
 
                                                     <i class="fa-solid fa-chalkboard-user text-green-600"></i>
 
-                                                    {{ $course->lecturer->name ?? 'Belum Ada Dosen' }}
+                                                    {{ $course->lecturers->name ?? 'Belum Ada Dosen' }}
 
                                                 </div>
 
@@ -338,9 +315,7 @@
 
                         {{-- Pagination --}}
                         <div class="mt-8">
-
                             {{ $courses->links() }}
-
                         </div>
 
                     </div>
@@ -351,74 +326,33 @@
                 <div>
 
                     <div class="bg-white border border-gray-200 rounded-3xl shadow-sm p-6">
-
-                        <h2 class="text-2xl font-bold text-gray-900">
-                            Aksi Cepat
+                        <h2 class="text-2xl mb-3 font-bold text-gray-900">
+                            Kelola
                         </h2>
-
-                        <p class="text-gray-500 mt-2 mb-6">
-                            Shortcut untuk pengelolaan LMS.
-                        </p>
-
                         <div class="space-y-4">
-
-                            {{-- User --}}
-                            <a href="{{ route('admin.users.create') }}"
+                            {{-- Manage Users --}}
+                            <a href="{{ route('admin.users.index') }}"
                                 class="flex items-center gap-4 p-5 rounded-2xl border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition group">
-
                                 <div
                                     class="w-14 h-14 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center text-xl">
-
-                                    <i class="fa-solid fa-user-plus"></i>
+                                    <i class="fa-solid fa-users"></i>
 
                                 </div>
 
                                 <div>
 
                                     <h3 class="font-semibold text-gray-900 group-hover:text-blue-700">
-
-                                        Tambah User
-
+                                        Kelola User
                                     </h3>
 
                                     <p class="text-sm text-gray-500 mt-1">
-
-                                        Tambah admin, dosen, atau mahasiswa
-
+                                        Atur seluruh pengguna LMS
                                     </p>
 
                                 </div>
 
                             </a>
 
-                            {{-- Course --}}
-                            <a href="{{ route('admin.courses.create') }}"
-                                class="flex items-center gap-4 p-5 rounded-2xl border border-gray-200 hover:border-green-300 hover:bg-green-50 transition group">
-
-                                <div
-                                    class="w-14 h-14 rounded-2xl bg-green-100 text-green-600 flex items-center justify-center text-xl">
-
-                                    <i class="fa-solid fa-book-open"></i>
-
-                                </div>
-
-                                <div>
-
-                                    <h3 class="font-semibold text-gray-900 group-hover:text-green-700">
-
-                                        Tambah Course
-
-                                    </h3>
-
-                                    <p class="text-sm text-gray-500 mt-1">
-
-                                        Buat mata kuliah baru
-
-                                    </p>
-
-                                </div>
-
-                            </a>
 
                             {{-- Manage --}}
                             <a href="{{ route('admin.courses.index') }}"

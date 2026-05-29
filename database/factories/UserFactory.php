@@ -25,11 +25,8 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
-            'remember_token' => Str::random(10),
         ];
     }
 
@@ -38,8 +35,32 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
-            'email_verified_at' => null,
-        ]);
+        return $this->state(fn (array $attributes) => []);
     }
+
+    /**
+     * Configure the model factory.
+     */
+    public function configure(): static
+    {
+        return $this->afterCreating(function (User $user) {
+            // Check if roles exist, if not, Spatie might not be seeded yet
+            try {
+                if (!$user->hasRole('admin') && !$user->hasRole('lecturer') && !$user->hasRole('student')) {
+                    $user->assignRole('student');
+                }
+            } catch (\Exception $e) {
+                // In some test contexts, roles table might not be seeded
+            }
+
+            if (!$user->student && !$user->lecturer) {
+                \App\Models\Student::create([
+                    'user_id' => $user->id,
+                    'name' => 'Test User',
+                    'npm' => 'NPM-' . rand(100000, 999999),
+                ]);
+            }
+        });
+    }
+
 }

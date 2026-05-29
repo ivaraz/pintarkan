@@ -84,50 +84,82 @@
 
                 <!-- Main Content -->
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Enrolled Courses -->
+                    <!-- Task List -->
                     <div class="lg:col-span-2 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
                         <div class="flex items-center justify-between mb-4">
-                            <h2 class="text-lg font-bold text-gray-900">Mata Kuliah Anda</h2>
+                            <h2 class="text-lg font-bold text-gray-900">Daftar Tugas</h2>
                         </div>
-                        @if ($enrollments && count($enrollments) > 0)
+                        @if ($assignments && count($assignments) > 0)
                             <div class="space-y-3">
-                                @foreach ($enrollments as $enrollment)
-                                    <div class="p-4 border border-gray-200 rounded-lg hover:bg-blue-50 transition-colors">
+                                @foreach ($assignments->take(5) as $assignment)
+                                    @php
+                                        $dueDate = \Carbon\Carbon::parse($assignment->due_date);
+                                        $isPast = $dueDate->isPast();
+                                        $daysLeft = (int) \Carbon\Carbon::now()->diffInDays($dueDate);
+                                        
+                                        if ($isPast) {
+                                            $status = 'danger';
+                                        } elseif ($daysLeft <= 5) {
+                                            $status = 'warning';
+                                        } else {
+                                            $status = 'info';
+                                        }
+                                        $colors = ['danger' => 'red', 'warning' => 'yellow', 'info' => 'green'];
+                                    @endphp
+                                    <div
+                                        class="p-4 border-l-4 border-{{ $colors[$status] }}-500 bg-{{ $colors[$status] }}-50 rounded-lg hover:shadow-sm transition-shadow">
                                         <div class="flex items-center justify-between">
-                                            <div>
-                                                <h3 class="font-semibold text-gray-900">{{ $enrollment->course->title }}
-                                                </h3>
+                                            <div class="flex-1">
+                                                <a href="{{ route('student.assignments.show', [$assignment->course_id, $assignment->id]) }}"
+                                                    class="font-semibold text-gray-900 hover:text-blue-600 hover:underline">{{ $assignment->title }}</a>
                                                 <p class="text-sm text-gray-600 mt-1">
-                                                    Dosen: {{ $enrollment->course->lecturer->name ?? 'N/A' }}
-                                                </p>
-                                                <p class="text-xs text-gray-500 mt-1">
-                                                    Status:
-                                                    <span
-                                                        class="px-2 py-1 rounded text-xs font-medium {{ $enrollment->status == 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                                                        {{ ucfirst($enrollment->status) }}
-                                                    </span>
-                                                </p>
+                                                    {{ $assignment->course->title ?? 'N/A' }}</p>
+                                                <div class="flex items-center mt-2">
+                                                    <svg class="w-4 h-4 text-gray-400 mr-1" fill="none"
+                                                        stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                    </svg>
+                                                    <p class="text-xs text-{{ $colors[$status] }}-600 font-medium">
+                                                        @if ($isPast)
+                                                            Deadline sudah lewat!
+                                                        @else
+                                                            Deadline: {{ $daysLeft }} hari lagi
+                                                        @endif
+                                                    </p>
+                                                </div>
                                             </div>
-                                            <div class="text-right">
-                                                <a href="#"
-                                                    class="text-blue-600 hover:text-blue-700 text-sm font-medium">
-                                                    Lihat Kelas
-                                                </a>
-                                            </div>
+                                            <span
+                                                class="px-3 py-1 bg-{{ $colors[$status] }}-200 text-{{ $colors[$status] }}-800 text-xs font-bold rounded">
+                                                @if ($isPast)
+                                                    Lewat
+                                                @elseif($daysLeft <= 5)
+                                                    Segera
+                                                @else
+                                                    Cukup
+                                                @endif
+                                            </span>
                                         </div>
                                     </div>
                                 @endforeach
                             </div>
                         @else
-                            <div class="p-6 text-center bg-gray-50 rounded-lg">
-                                <p class="text-gray-500">Anda belum terdaftar di mata kuliah apapun</p>
+                            <div class="p-6 text-center bg-gray-50 rounded-lg border border-dashed border-gray-300">
+                                <svg class="mx-auto h-12 w-12 text-gray-300" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                                </svg>
+                                <p class="mt-2 text-gray-500 font-medium">Tidak ada tugas</p>
+                                <p class="text-sm text-gray-400">Selamat! Anda telah menyelesaikan semua tugas Anda.</p>
                             </div>
                         @endif
                     </div>
 
                     <!-- Course Progress -->
                     <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                        <h2 class="text-lg font-bold text-gray-900 mb-4">Status Pembelajaran</h2>
+                        <h2 class="text-lg font-bold text-gray-900 mb-4">Progress Pembelajaran</h2>
                         @if ($enrollments && count($enrollments) > 0)
                             <div class="space-y-4">
                                 @php $i = 0; @endphp
@@ -135,7 +167,7 @@
                                     @php
                                         $colors = ['blue', 'purple', 'green', 'orange', 'red', 'indigo'];
                                         $color = $colors[$i % count($colors)];
-                                        $progress = ((($i + 1) % 4) + 1) * 20; // Simulate progress
+                                        $progress = $enrollment->progress ?? 0;
                                         $i++;
                                     @endphp
                                     <div>
@@ -159,71 +191,44 @@
                     </div>
                 </div>
 
-                <!-- Upcoming Assignments -->
-                @if ($assignments && count($assignments) > 0)
-                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                        <div class="flex items-center justify-between mb-4">
-                            <h2 class="text-lg font-bold text-gray-900">Tugas Mendatang</h2>
-                            <a href="#" class="text-sm text-blue-600 hover:text-blue-700 font-medium">Lihat Semua</a>
-                        </div>
-                        <div class="space-y-3">
-                            @foreach ($assignments->take(5) as $assignment)
-                                @php
-                                    $daysLeft = \Carbon\Carbon::parse($assignment->due_date)->diffInDays(
-                                        \Carbon\Carbon::now(),
-                                    );
-                                    if ($daysLeft <= 0) {
-                                        $status = 'danger';
-                                    } elseif ($daysLeft <= 5) {
-                                        $status = 'warning';
-                                    } else {
-                                        $status = 'info';
-                                    }
-
-                                    $colors = ['danger' => 'red', 'warning' => 'yellow', 'info' => 'green'];
-                                @endphp
+                <!-- Enrolled Courses -->
+                <div class="mt-6 bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-lg font-bold text-gray-900">Mata Kuliah Anda</h2>
+                    </div>
+                    @if ($enrollments && count($enrollments) > 0)
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            @foreach ($enrollments as $enrollment)
                                 <div
-                                    class="p-4 border-l-4 border-{{ $colors[$status] }}-500 bg-{{ $colors[$status] }}-50 rounded-lg hover:shadow-sm transition-shadow">
-                                    <div class="flex items-center justify-between">
-                                        <div class="flex-1">
-                                            <h3 class="font-semibold text-gray-900">{{ $assignment->title }}</h3>
-                                            <p class="text-sm text-gray-600 mt-1">{{ $assignment->course->title ?? 'N/A' }}
-                                            </p>
-                                            <div class="flex items-center mt-2">
-                                                <svg class="w-4 h-4 text-gray-400 mr-1" fill="none" stroke="currentColor"
-                                                    viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                </svg>
-                                                <p class="text-xs text-{{ $colors[$status] }}-600 font-medium">
-                                                    @if ($daysLeft <= 0)
-                                                        Deadline sudah lewat!
-                                                    @else
-                                                        Deadline: {{ $daysLeft }} hari lagi
-                                                    @endif
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <span
-                                            class="px-3 py-1 bg-{{ $colors[$status] }}-200 text-{{ $colors[$status] }}-800 text-xs font-bold rounded">
-                                            @if ($daysLeft <= 0)
-                                                Lewat
-                                            @elseif($daysLeft <= 5)
-                                                Segera
-                                            @else
-                                                Cukup
-                                            @endif
-                                        </span>
+                                    class="p-4 border border-gray-200 rounded-lg hover:bg-blue-50 transition-colors flex flex-col h-full bg-gray-50/50">
+                                    <div class="flex-1">
+                                        <h3 class="font-semibold text-gray-900 text-lg">{{ $enrollment->course->title }}
+                                        </h3>
+                                        <p class="text-sm text-gray-600 mt-1">Dosen:
+                                            {{ $enrollment->course->lecturers->name ?? 'N/A' }}</p>
+                                        <p class="text-xs text-gray-500 mt-3">
+                                            Status:
+                                            <span
+                                                class="px-2 py-1 rounded text-xs font-medium {{ $enrollment->status == 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                                {{ ucfirst($enrollment->status) }}
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <div class="mt-4 text-right">
+                                        <a href="{{ route('student.courses.show', $enrollment->course->id) }}"
+                                            class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+                                            Lihat Kelas &rarr;
+                                        </a>
                                     </div>
                                 </div>
                             @endforeach
                         </div>
-                    </div>
-                @else
-                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center">
-                        <p class="text-gray-500">Tidak ada tugas yang mendatang</p>
-                    </div>
-                @endif
+                    @else
+                        <div class="p-6 text-center bg-gray-50 rounded-lg">
+                            <p class="text-gray-500">Anda belum terdaftar di mata kuliah apapun</p>
+                        </div>
+                    @endif
+                </div>
             </div>
         </div>
     </div>

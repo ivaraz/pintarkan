@@ -38,8 +38,8 @@
                     <a href="{{ auth()->user()->dashboard_route }}"
                         class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition
                         {{ request()->routeIs('admin.dashboard') ||
-                        request()->routeIs('dosen.dashboard') ||
-                        request()->routeIs('mahasiswa.dashboard')
+                        request()->routeIs('lecturer.dashboard') ||
+                        request()->routeIs('student.dashboard')
                             ? 'bg-blue-50 text-blue-700'
                             : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' }}">
 
@@ -48,6 +48,75 @@
                         Dashboard
 
                     </a>
+
+                    @if (auth()->user()->hasRole('admin'))
+                        {{-- Kelola User --}}
+                        <a href="{{ route('admin.users.index') }}"
+                            class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition
+                            {{ request()->routeIs('admin.users.*')
+                                ? 'bg-blue-50 text-blue-700'
+                                : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' }}">
+
+                            <i class="fa-solid fa-users"></i>
+
+                            Kelola User
+
+                        </a>
+
+                        {{-- Kelola Course --}}
+                        <a href="{{ route('admin.courses.index') }}"
+                            class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition
+                            {{ request()->routeIs('admin.courses.*')
+                                ? 'bg-blue-50 text-blue-700'
+                                : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' }}">
+
+                            <i class="fa-solid fa-book"></i>
+
+                            Kelola Course
+
+                        </a>
+                    @endif
+
+                    @if (auth()->user()->hasRole('lecturer'))
+                        {{-- Kelola Course --}}
+                        <a href="{{ route('lecturer.courses.index') }}"
+                            class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition
+                            {{ request()->routeIs('lecturer.courses.*')
+                                ? 'bg-blue-50 text-blue-700'
+                                : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' }}">
+
+                            <i class="fa-solid fa-book"></i>
+
+                            Kelola Course
+
+                        </a>
+
+                        {{-- Kelola Mahasiswa --}}
+                        <a href="{{ route('lecturer.students.index') }}"
+                            class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition
+                            {{ request()->routeIs('lecturer.students.*')
+                                ? 'bg-blue-50 text-blue-700'
+                                : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' }}">
+
+                            <i class="fa-solid fa-user-graduate"></i>
+
+                            Kelola Mahasiswa
+
+                        </a>
+
+                        {{-- Penilaian --}}
+                        <a href="{{ route('lecturer.grades.index') }}"
+                            class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition
+                            {{ request()->routeIs('lecturer.grades.*')
+                                ? 'bg-blue-50 text-blue-700'
+                                : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' }}">
+
+                            <i class="fa-solid fa-star"></i>
+
+                            Penilaian
+
+                        </a>
+                    @endif
 
                 </div>
 
@@ -196,8 +265,8 @@
             <a href="{{ auth()->user()->dashboard_route }}"
                 class="flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-medium transition
                 {{ request()->routeIs('admin.dashboard') ||
-                request()->routeIs('dosen.dashboard') ||
-                request()->routeIs('mahasiswa.dashboard')
+                request()->routeIs('lecturer.dashboard') ||
+                request()->routeIs('student.dashboard')
                     ? 'bg-blue-50 text-blue-700'
                     : 'text-gray-700 hover:bg-gray-100' }}">
 
@@ -206,6 +275,75 @@
                 Dashboard
 
             </a>
+
+            @if (auth()->user()->hasRole('admin'))
+                {{-- Kelola User --}}
+                <a href="{{ route('admin.users.index') }}"
+                    class="flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-medium transition
+                    {{ request()->routeIs('admin.users.*')
+                        ? 'bg-blue-50 text-blue-700'
+                        : 'text-gray-700 hover:bg-gray-100' }}">
+
+                    <i class="fa-solid fa-users"></i>
+
+                    Kelola User
+
+                </a>
+
+                {{-- Kelola Course --}}
+                <a href="{{ route('admin.courses.index') }}"
+                    class="flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-medium transition
+                    {{ request()->routeIs('admin.courses.*')
+                        ? 'bg-blue-50 text-blue-700'
+                        : 'text-gray-700 hover:bg-gray-100' }}">
+
+                    <i class="fa-solid fa-book"></i>
+
+                    Kelola Course
+
+                </a>
+            @endif
+
+            @if (auth()->user()->hasRole('lecturer'))
+                {{-- Kelola Course --}}
+                <a href="{{ route('lecturer.courses.index') }}"
+                    class="flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-medium transition
+                    {{ request()->routeIs('lecturer.courses.*')
+                        ? 'bg-blue-50 text-blue-700'
+                        : 'text-gray-700 hover:bg-gray-100' }}">
+
+                    <i class="fa-solid fa-book"></i>
+
+                    Kelola Course
+
+                </a>
+
+                {{-- Kelola Mahasiswa --}}
+                <a href="{{ route('lecturer.students.index') }}"
+                    class="flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-medium transition
+                    {{ request()->routeIs('lecturer.students.*')
+                        ? 'bg-blue-50 text-blue-700'
+                        : 'text-gray-700 hover:bg-gray-100' }}">
+
+                    <i class="fa-solid fa-user-graduate"></i>
+
+                    Kelola Mahasiswa
+
+                </a>
+
+                {{-- Penilaian --}}
+                <a href="{{ route('lecturer.grades.index') }}"
+                    class="flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-medium transition
+                    {{ request()->routeIs('lecturer.grades.*')
+                        ? 'bg-blue-50 text-blue-700'
+                        : 'text-gray-700 hover:bg-gray-100' }}">
+
+                    <i class="fa-solid fa-star"></i>
+
+                    Penilaian
+
+                </a>
+            @endif
 
             {{-- Profile --}}
             <a href="{{ route('profile.edit') }}"

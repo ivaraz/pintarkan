@@ -16,14 +16,16 @@ class EnrollmentSeeder extends Seeder
         $courses = Course::all();
 
         foreach ($students as $student) {
-            $randomCourses = $courses->random(3);
+            // Enroll students in a random number of courses between 3 and 5
+            $randomCoursesCount = rand(3, 5);
+            $randomCourses = $courses->random($randomCoursesCount);
 
             foreach ($randomCourses as $course) {
                 Enrollment::firstOrCreate([
                     'student_id' => $student->id,
                     'course_id' => $course->id,
-                    'status' => 'enrolled',
-                    'enrolled_at' => now()
+                    'status' => 'active',
+                    'enrolled_at' => now()->subDays(rand(10, 30))
                 ]);
             }
         }

@@ -343,7 +343,7 @@
 
                         <p class="text-gray-600 mt-3 leading-relaxed">
                             Sistem role dan autentikasi yang aman
-                            untuk admin, dosen, dan mahasiswa.
+                            untuk admin, dosen, dan student.
                         </p>
 
                     </div>

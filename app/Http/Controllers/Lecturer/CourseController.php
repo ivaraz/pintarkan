@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Lecturer;
 
+use App\Http\Controllers\Controller;
 use App\Models\Course;
-use App\Models\Lecturer;
 use App\Models\Student;
 use App\Models\Enrollment;
 use Illuminate\Http\Request;
@@ -11,12 +11,16 @@ use Illuminate\Http\Request;
 class CourseController extends Controller
 {
     /**
-     * Display a listing of courses.
+     * Display a listing of courses for the authenticated lecturer.
      */
     public function index()
     {
-        $courses = Course::with(['lecturers', 'enrollments'])->paginate(15);
-        return view('admin.courses.index', compact('courses'));
+        $lecturer = auth()->user()->lecturer;
+        $courses = Course::where('lecturer_id', $lecturer->id)
+            ->with(['lecturers', 'enrollments', 'materials', 'assignments'])
+            ->paginate(15);
+
+        return view('lecturer.courses.index', compact('courses'));
     }
 
     /**
@@ -24,8 +28,7 @@ class CourseController extends Controller
      */
     public function create()
     {
-        $lecturers = Lecturer::all();
-        return view('admin.courses.create', compact('lecturers'));
+        return view('lecturer.courses.create');
     }
 
     /**
@@ -36,18 +39,18 @@ class CourseController extends Controller
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
-            'lecturer_id' => ['required', 'exists:lecturers,id'],
         ], [
             'title.required' => 'Judul matkul harus diisi',
             'title.max' => 'Judul matkul maksimal 255 karakter',
-            'lecturer_id.required' => 'Dosen harus dipilih',
-            'lecturer_id.exists' => 'Dosen tidak valid',
         ]);
 
         try {
+            $lecturer = auth()->user()->lecturer;
+            $validated['lecturer_id'] = $lecturer->id;
+
             Course::create($validated);
             $notif = array('message' => 'Matkul berhasil ditambahkan', 'alert-type' => 'success');
-            return redirect()->route('admin.courses.index')->with($notif);
+            return redirect()->route('lecturer.courses.index')->with($notif);
         } catch (\Exception $e) {
             return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage())->withInput();
         }
@@ -58,9 +61,21 @@ class CourseController extends Controller
      */
     public function show(Course $course)
     {
-        $course->load(['lecturers', 'enrollments']);
-        $enrolledStudents = $course->enrollments()->with('student')->get();
-        return view('admin.courses.show', compact('course', 'enrolledStudents'));
+        if ($course->lecturer_id !== auth()->user()->lecturer->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $course->load([
+            'lecturers',
+            'enrollments.student',
+            'assignments',
+            'materials',
+        ]);
+
+        return view('lecturer.courses.show', [
+            'course' => $course,
+            'enrolledStudents' => $course->enrollments,
+        ]);
     }
 
     /**
@@ -68,8 +83,11 @@ class CourseController extends Controller
      */
     public function edit(Course $course)
     {
-        $lecturers = Lecturer::all();
-        return view('admin.courses.edit', compact('course', 'lecturers'));
+        if ($course->lecturer_id !== auth()->user()->lecturer->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        return view('lecturer.courses.edit', compact('course'));
     }
 
     /**
@@ -77,16 +95,19 @@ class CourseController extends Controller
      */
     public function update(Request $request, Course $course)
     {
+        if ($course->lecturer_id !== auth()->user()->lecturer->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
-            'lecturer_id' => ['required', 'exists:lecturers,id'],
         ]);
 
         try {
             $course->update($validated);
             $notif = array('message' => 'Matkul berhasil diperbarui', 'alert-type' => 'success');
-            return redirect()->route('admin.courses.show', $course)->with($notif);
+            return redirect()->route('lecturer.courses.show', $course)->with($notif);
         } catch (\Exception $e) {
             return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage())->withInput();
         }
@@ -97,10 +118,14 @@ class CourseController extends Controller
      */
     public function destroy(Course $course)
     {
+        if ($course->lecturer_id !== auth()->user()->lecturer->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
         try {
             $course->delete();
             $notif = array('message' => 'Matkul berhasil dihapus', 'alert-type' => 'success');
-            return redirect()->route('admin.courses.index')->with($notif);
+            return redirect()->route('lecturer.courses.index')->with($notif);
         } catch (\Exception $e) {
             return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
@@ -109,12 +134,16 @@ class CourseController extends Controller
     /**
      * Show form for adding students to a course.
      */
-    public function addStudents(Course $course)
+    public function students(Course $course)
     {
+        if ($course->lecturer_id !== auth()->user()->lecturer->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $course->load('enrollments');
         $enrolledStudentIds = $course->enrollments()->pluck('student_id')->toArray();
         $students = Student::whereNotIn('id', $enrolledStudentIds)->get();
-        return view('admin.courses.add-students', compact('course', 'students'));
+        return view('lecturer.courses.add-students', compact('course', 'students'));
     }
 
     /**
@@ -122,6 +151,10 @@ class CourseController extends Controller
      */
     public function storeEnrollment(Request $request, Course $course)
     {
+        if ($course->lecturer_id !== auth()->user()->lecturer->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $validated = $request->validate([
             'student_ids' => ['required', 'array', 'min:1'],
             'student_ids.*' => ['exists:students,id'],
@@ -138,7 +171,7 @@ class CourseController extends Controller
                 );
             }
             $notif = array('message' => 'Mahasiswa berhasil ditambahkan ke matkul', 'alert-type' => 'success');
-            return redirect()->route('admin.courses.show', $course)->with($notif);
+            return redirect()->route('lecturer.courses.show', $course)->with($notif);
         } catch (\Exception $e) {
             return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage())->withInput();
         }
@@ -149,6 +182,10 @@ class CourseController extends Controller
      */
     public function removeStudent(Course $course, Enrollment $enrollment)
     {
+        if ($course->lecturer_id !== auth()->user()->lecturer->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
         try {
             if ($enrollment->course_id !== $course->id) {
                 return back()->with('error', 'Data tidak valid');
@@ -159,5 +196,28 @@ class CourseController extends Controller
         } catch (\Exception $e) {
             return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
+    }
+
+    /**
+     * Display a recap of student grades for all assignments in the course.
+     */
+    public function gradesRecap(Course $course)
+    {
+        if ($course->lecturer_id !== auth()->user()->lecturer->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $course->load(['assignments', 'enrollments.student']);
+        $assignments = $course->assignments;
+        $enrollments = $course->enrollments;
+
+        // Fetch all submissions with grades for the assignments of this course
+        $assignmentIds = $assignments->pluck('id')->toArray();
+        $submissions = \App\Models\Submission::whereIn('assignment_id', $assignmentIds)
+            ->with('grade')
+            ->get()
+            ->groupBy('student_id');
+
+        return view('lecturer.courses.grades-recap', compact('course', 'assignments', 'enrollments', 'submissions'));
     }
 }
