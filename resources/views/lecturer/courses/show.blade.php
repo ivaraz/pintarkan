@@ -86,6 +86,16 @@
                     {{-- Actions --}}
                     <div class="flex flex-wrap items-center gap-3">
 
+                        {{-- Add Materi --}}
+                        <a href="{{ route('lecturer.materials.create', $course) }}"
+                            class="inline-flex items-center gap-2 px-5 py-3 bg-orange-600 hover:bg-orange-700 text-white rounded-2xl transition shadow-lg shadow-orange-100">
+
+                            <i class="fa-solid fa-book-medical"></i>
+
+                            Tambah Materi
+
+                        </a>
+
                         {{-- Add Assignment --}}
                         <a href="{{ route('lecturer.assignments.create', $course) }}"
                             class="inline-flex items-center gap-2 px-5 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-2xl transition shadow-lg shadow-purple-100">
@@ -264,6 +274,132 @@
                     </div>
 
                 </div>
+
+            </div>
+
+            {{-- Material List --}}
+            <div class="bg-white border border-gray-200 rounded-3xl shadow-sm overflow-hidden">
+
+                {{-- Header --}}
+                <div class="p-8 border-b border-gray-100 flex items-center justify-between">
+
+                    <div>
+
+                        <h2 class="text-2xl font-bold text-gray-900">
+
+                            Daftar Materi
+
+                        </h2>
+
+                        <p class="text-gray-500 mt-2">
+
+                            Semua materi pada mata kuliah ini.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                {{-- Content --}}
+                @if ($course->materials->count() > 0)
+                    <div class="divide-y divide-gray-100">
+
+                        @foreach ($course->materials as $material)
+                            <div class="p-8 hover:bg-orange-50/30 transition">
+
+                                <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+
+                                    {{-- Left --}}
+                                    <div class="flex items-start gap-5">
+
+                                        <div
+                                            class="w-16 h-16 rounded-3xl bg-orange-100 text-orange-600 flex items-center justify-center text-2xl shrink-0">
+
+                                            <i class="fa-solid fa-book-open"></i>
+
+                                        </div>
+
+                                        <div>
+
+                                            <h3 class="text-xl font-bold text-gray-900">
+
+                                                {{ $material->title }}
+
+                                            </h3>
+
+                                            <p class="text-gray-500 mt-2 leading-relaxed">
+
+                                                {{ Str::limit($material->content, 120) }}
+
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+                                    {{-- Action --}}
+                                    <div class="flex items-center gap-3 mt-4 lg:mt-0">
+
+                                        @if (!empty($material->files))
+                                            <a href="{{ Storage::url($material->files[0]) }}" target="_blank"
+                                                class="inline-flex items-center justify-center w-10 h-10 bg-orange-50 hover:bg-orange-100 text-orange-700 rounded-xl transition tooltip" title="Download File Pertama">
+                                                <i class="fa-solid fa-download"></i>
+                                            </a>
+                                        @endif
+
+                                        <a href="{{ route('lecturer.materials.show', [$course->id, $material->id]) }}"
+                                            class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition">
+                                            <i class="fa-solid fa-eye"></i>
+                                            Detail
+                                        </a>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        @endforeach
+
+                    </div>
+                @else
+                    {{-- Empty State --}}
+                    <div class="py-20 px-8 text-center">
+
+                        <div class="flex flex-col items-center">
+
+                            <div
+                                class="w-24 h-24 rounded-3xl bg-orange-100 text-orange-600 flex items-center justify-center text-4xl mb-6">
+
+                                <i class="fa-solid fa-book-medical"></i>
+
+                            </div>
+
+                            <h3 class="text-2xl font-bold text-gray-900">
+
+                                Belum Ada Materi
+
+                            </h3>
+
+                            <p class="text-gray-500 mt-3 max-w-md">
+
+                                Tambahkan materi pertama untuk mahasiswa pada course ini.
+
+                            </p>
+
+                            <a href="{{ route('lecturer.materials.create', $course) }}"
+                                class="mt-8 inline-flex items-center gap-2 px-5 py-3 bg-orange-600 hover:bg-orange-700 text-white rounded-2xl transition shadow-lg shadow-orange-100">
+
+                                <i class="fa-solid fa-book-medical"></i>
+
+                                Tambah Materi
+
+                            </a>
+
+                        </div>
+
+                    </div>
+                @endif
 
             </div>
 

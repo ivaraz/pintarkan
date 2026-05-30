@@ -131,7 +131,7 @@
 
                             <div>
                                 <h3 class="text-3xl font-bold text-gray-900">
-                                    100+
+                                    {{ $stats['students'] ?? '100+' }}
                                 </h3>
 
                                 <p class="text-gray-500 mt-1">
@@ -141,7 +141,7 @@
 
                             <div>
                                 <h3 class="text-3xl font-bold text-gray-900">
-                                    20+
+                                    {{ $stats['courses'] ?? '20+' }}
                                 </h3>
 
                                 <p class="text-gray-500 mt-1">
@@ -151,7 +151,7 @@
 
                             <div>
                                 <h3 class="text-3xl font-bold text-gray-900">
-                                    10+
+                                    {{ $stats['instructors'] ?? '10+' }}
                                 </h3>
 
                                 <p class="text-gray-500 mt-1">

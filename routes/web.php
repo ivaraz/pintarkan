@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\CourseController as AdminCourseController;
 use App\Http\Controllers\Lecturer\DashboardController as LecturerDashboardController;
 use App\Http\Controllers\Lecturer\CourseController as LecturerCourseController;
 use App\Http\Controllers\Lecturer\AssignmentController as LecturerAssignmentController;
+use App\Http\Controllers\Lecturer\MaterialController as LecturerMaterialController;
 use App\Http\Controllers\Lecturer\StudentController as LecturerStudentController;
 use App\Http\Controllers\Lecturer\GradeController as LecturerGradeController;
 use App\Http\Controllers\Student\DashboardController as StudentDashboardController;
@@ -14,7 +16,7 @@ use App\Http\Controllers\Student\CourseController as StudentCourseController;
 use App\Http\Controllers\Student\AssignmentController as StudentAssignmentController;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'welcome');
+Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -94,6 +96,20 @@ Route::middleware(['auth', 'role:lecturer'])
     Route::get('/courses/{course}/grades-recap', [LecturerCourseController::class, 'gradesRecap'])
         ->name('lecturer.courses.grades-recap');
 
+    // Material Management Routes for Lecturers
+    Route::get('/courses/{course}/materials/create', [LecturerMaterialController::class, 'create'])
+        ->name('lecturer.materials.create');
+    Route::post('/courses/{course}/materials', [LecturerMaterialController::class, 'store'])
+        ->name('lecturer.materials.store');
+    Route::get('/courses/{course}/materials/{material}', [LecturerMaterialController::class, 'show'])
+        ->name('lecturer.materials.show');
+    Route::get('/courses/{course}/materials/{material}/edit', [LecturerMaterialController::class, 'edit'])
+        ->name('lecturer.materials.edit');
+    Route::put('/courses/{course}/materials/{material}', [LecturerMaterialController::class, 'update'])
+        ->name('lecturer.materials.update');
+    Route::delete('/courses/{course}/materials/{material}', [LecturerMaterialController::class, 'destroy'])
+        ->name('lecturer.materials.destroy');
+
     // Assignment Management Routes for Lecturers
     Route::get('/courses/{course}/assignments/create', [LecturerAssignmentController::class, 'create'])
         ->name('lecturer.assignments.create');
@@ -115,16 +131,16 @@ Route::middleware(['auth', 'role:student'])
 ->group(function () {
     Route::get('/dashboard', [StudentDashboardController::class, 'index'])
         ->name('student.dashboard');
-        
+
     Route::get('/courses/{course}', [StudentCourseController::class, 'show'])
         ->name('student.courses.show');
-        
+
     Route::get('/courses/{course}/materials/{material}', [StudentCourseController::class, 'showMaterial'])
         ->name('student.materials.show');
-        
+
     Route::get('/courses/{course}/assignments/{assignment}', [StudentAssignmentController::class, 'show'])
         ->name('student.assignments.show');
-        
+
     Route::post('/assignments/{assignment}/submissions', [StudentAssignmentController::class, 'submit'])
         ->name('student.assignments.submit');
 });
