@@ -1,357 +1,208 @@
-<nav x-data="{ open: false }" class="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-gray-100">
-
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-        <div class="flex items-center justify-between h-16">
-
-            {{-- LEFT --}}
-            <div class="flex items-center gap-10">
-
-                {{-- Logo --}}
-                <a href="{{ auth()->user()->dashboard_route }}" class="flex items-center gap-3 shrink-0">
-
-                    <div
-                        class="w-11 h-11 rounded-2xl bg-blue-600 text-white flex items-center justify-center shadow-sm text-lg">
-
-                        <i class="fa-solid fa-graduation-cap"></i>
-
-                    </div>
-
-                    <div class="hidden sm:block">
-
-                        <h1 class="text-lg font-bold text-gray-900">
-                            PintarKan
-                        </h1>
-
-                        <p class="text-xs text-gray-500 -mt-1">
-                            LMS Platform
-                        </p>
-
-                    </div>
-
-                </a>
-
-                {{-- Desktop Navigation --}}
-                <div class="hidden sm:flex items-center gap-2">
-
-                    {{-- Dashboard --}}
-                    <a href="{{ auth()->user()->dashboard_route }}"
-                        class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition
-                        {{ request()->routeIs('admin.dashboard') ||
-                        request()->routeIs('lecturer.dashboard') ||
-                        request()->routeIs('student.dashboard')
-                            ? 'bg-blue-50 text-blue-700'
-                            : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' }}">
-
-                        <i class="fa-solid fa-house"></i>
-
-                        Dashboard
-
-                    </a>
-
-                    @if (auth()->user()->hasRole('admin'))
-                        {{-- Kelola User --}}
-                        <a href="{{ route('admin.users.index') }}"
-                            class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition
-                            {{ request()->routeIs('admin.users.*')
-                                ? 'bg-blue-50 text-blue-700'
-                                : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' }}">
-
-                            <i class="fa-solid fa-users"></i>
-
-                            Kelola User
-
-                        </a>
-
-                        {{-- Kelola Course --}}
-                        <a href="{{ route('admin.courses.index') }}"
-                            class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition
-                            {{ request()->routeIs('admin.courses.*')
-                                ? 'bg-blue-50 text-blue-700'
-                                : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' }}">
-
-                            <i class="fa-solid fa-book"></i>
-
-                            Kelola Course
-
-                        </a>
-                    @endif
-
-                    @if (auth()->user()->hasRole('lecturer'))
-                        {{-- Kelola Course --}}
-                        <a href="{{ route('lecturer.courses.index') }}"
-                            class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition
-                            {{ request()->routeIs('lecturer.courses.*')
-                                ? 'bg-blue-50 text-blue-700'
-                                : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' }}">
-
-                            <i class="fa-solid fa-book"></i>
-
-                            Kelola Course
-
-                        </a>
-
-                        {{-- Kelola Mahasiswa --}}
-                        <a href="{{ route('lecturer.students.index') }}"
-                            class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition
-                            {{ request()->routeIs('lecturer.students.*')
-                                ? 'bg-blue-50 text-blue-700'
-                                : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' }}">
-
-                            <i class="fa-solid fa-user-graduate"></i>
-
-                            Kelola Mahasiswa
-
-                        </a>
-
-                        {{-- Penilaian --}}
-                        <a href="{{ route('lecturer.grades.index') }}"
-                            class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition
-                            {{ request()->routeIs('lecturer.grades.*')
-                                ? 'bg-blue-50 text-blue-700'
-                                : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' }}">
-
-                            <i class="fa-solid fa-star"></i>
-
-                            Penilaian
-
-                        </a>
-                    @endif
-
-                </div>
-
-            </div>
-
-            {{-- RIGHT --}}
-            <div class="hidden sm:flex items-center gap-4">
-
-                {{-- User Dropdown --}}
-                <x-dropdown align="right" width="60">
-
-                    {{-- Trigger --}}
-                    <x-slot name="trigger">
-
-                        <button class="flex items-center gap-3 px-3 py-2 rounded-2xl hover:bg-gray-100 transition">
-
-                            {{-- Avatar --}}
-                            <div
-                                class="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center font-semibold text-sm">
-
-                                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-
-                            </div>
-
-                            {{-- User Info --}}
-                            <div class="text-left">
-
-                                <p class="text-sm font-semibold text-gray-900 leading-none">
-                                    {{ Auth::user()->name }}
-                                </p>
-
-                                <p class="text-xs text-gray-500 mt-1">
-                                    {{ Auth::user()->getRoleNames()->first() }}
-                                </p>
-
-                            </div>
-
-                            {{-- Arrow --}}
-                            <div class="text-gray-400 text-sm">
-                                <i class="fa-solid fa-chevron-down"></i>
-                            </div>
-
-                        </button>
-
-                    </x-slot>
-
-                    {{-- Content --}}
-                    <x-slot name="content">
-
-                        <div class="px-4 py-3 border-b border-gray-100">
-
-                            <p class="text-sm font-semibold text-gray-900">
-                                {{ Auth::user()->name }}
-                            </p>
-
-                            <p class="text-xs text-gray-500 mt-1">
-                                {{ Auth::user()->email }}
-                            </p>
-
-                        </div>
-
-                        {{-- Profile --}}
-                        <x-dropdown-link :href="route('profile.edit')">
-
-                            <div class="flex items-center gap-3">
-
-                                <i class="fa-solid fa-user text-gray-500"></i>
-
-                                <span>Profile</span>
-
-                            </div>
-
-                        </x-dropdown-link>
-
-                        {{-- Logout --}}
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-
-                            <x-dropdown-link :href="route('logout')"
-                                onclick="event.preventDefault(); this.closest('form').submit();">
-
-                                <div class="flex items-center gap-3 text-red-600">
-
-                                    <i class="fa-solid fa-right-from-bracket"></i>
-
-                                    <span>Logout</span>
-
-                                </div>
-
-                            </x-dropdown-link>
-
-                        </form>
-
-                    </x-slot>
-
-                </x-dropdown>
-
-            </div>
-
-            {{-- MOBILE BUTTON --}}
-            <div class="flex sm:hidden">
-
-                <button @click="open = !open"
-                    class="w-11 h-11 rounded-xl border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-100 transition">
-
-                    <i class="fa-solid fa-bars"></i>
-
-                </button>
-
-            </div>
-
-        </div>
-
+{{-- ============================================================ --}}
+{{-- SIDEBAR NAVIGATION                                          --}}
+{{-- Desktop: fixed left sidebar (w-64, dark theme)              --}}
+{{-- Mobile: off-canvas overlay with Alpine.js toggle            --}}
+{{-- ============================================================ --}}
+
+<div x-data="{ sidebarOpen: false }">
+
+    {{-- ======================================================== --}}
+    {{-- MOBILE OVERLAY BACKDROP                                  --}}
+    {{-- ======================================================== --}}
+    <div x-show="sidebarOpen"
+         x-transition:enter="transition-opacity ease-linear duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition-opacity ease-linear duration-300"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="fixed inset-0 z-40 bg-gray-900/60 backdrop-blur-sm lg:hidden"
+         @click="sidebarOpen = false"
+         style="display: none;">
     </div>
 
-    {{-- MOBILE MENU --}}
-    <div x-show="open" x-transition class="sm:hidden border-t border-gray-100 bg-white">
+    {{-- ======================================================== --}}
+    {{-- SIDEBAR                                                  --}}
+    {{-- ======================================================== --}}
+    <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+           class="fixed inset-y-0 left-0 z-50 w-64 flex flex-col
+                  bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950
+                  border-r border-slate-800/50
+                  transform transition-transform duration-300 ease-in-out
+                  lg:translate-x-0 lg:z-30">
 
-        <div class="px-4 py-4 space-y-2">
+        {{-- ──────────────────────────────────────────────────── --}}
+        {{-- LOGO                                                 --}}
+        {{-- ──────────────────────────────────────────────────── --}}
+        <div class="flex items-center gap-3 px-6 h-16 shrink-0 border-b border-slate-800/60">
 
-            {{-- User --}}
-            <div class="flex items-center gap-3 p-4 rounded-2xl bg-gray-50 border border-gray-100">
+            <a href="{{ auth()->user()->dashboard_route }}" class="flex items-center gap-3 group">
 
-                <div
-                    class="w-12 h-12 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center font-semibold">
-
-                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-
+                <div class="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center shadow-lg shadow-indigo-500/20 group-hover:shadow-indigo-500/40 transition-shadow">
+                    <i class="fa-solid fa-graduation-cap text-sm"></i>
                 </div>
 
                 <div>
-
-                    <p class="font-semibold text-gray-900">
-                        {{ Auth::user()->name }}
+                    <h1 class="text-base font-bold text-white leading-none tracking-tight">
+                        PintarKan
+                    </h1>
+                    <p class="text-[11px] text-slate-500 mt-0.5 font-medium">
+                        LMS Platform
                     </p>
-
-                    <p class="text-sm text-gray-500">
-                        {{ Auth::user()->email }}
-                    </p>
-
                 </div>
-
-            </div>
-
-            {{-- Dashboard --}}
-            <a href="{{ auth()->user()->dashboard_route }}"
-                class="flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-medium transition
-                {{ request()->routeIs('admin.dashboard') ||
-                request()->routeIs('lecturer.dashboard') ||
-                request()->routeIs('student.dashboard')
-                    ? 'bg-blue-50 text-blue-700'
-                    : 'text-gray-700 hover:bg-gray-100' }}">
-
-                <i class="fa-solid fa-house"></i>
-
-                Dashboard
 
             </a>
 
+            {{-- Close button (mobile only) --}}
+            <button @click="sidebarOpen = false"
+                    class="ml-auto w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800 transition lg:hidden">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+        {{-- ──────────────────────────────────────────────────── --}}
+        {{-- NAVIGATION LINKS                                     --}}
+        {{-- ──────────────────────────────────────────────────── --}}
+        <nav class="flex-1 overflow-y-auto px-4 py-6 space-y-1.5">
+
+            {{-- Section Label --}}
+            <p class="px-3 text-[11px] font-semibold uppercase tracking-widest text-slate-500 mb-3">
+                Menu
+            </p>
+
+            {{-- Dashboard --}}
+            <a href="{{ auth()->user()->dashboard_route }}"
+               class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group
+               {{ request()->routeIs('admin.dashboard') ||
+                  request()->routeIs('lecturer.dashboard') ||
+                  request()->routeIs('student.dashboard')
+                   ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/25'
+                   : 'text-slate-400 hover:text-white hover:bg-slate-800/70' }}">
+
+                <i class="fa-solid fa-house text-[13px] w-5 text-center
+                   {{ request()->routeIs('admin.dashboard') ||
+                      request()->routeIs('lecturer.dashboard') ||
+                      request()->routeIs('student.dashboard')
+                       ? ''
+                       : 'group-hover:scale-110 transition-transform' }}"></i>
+
+                <span>Dashboard</span>
+
+            </a>
+
+            {{-- ── ADMIN MENU ─────────────────────────────────── --}}
             @if (auth()->user()->hasRole('admin'))
-                {{-- Kelola User --}}
+
                 <a href="{{ route('admin.users.index') }}"
-                    class="flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-medium transition
-                    {{ request()->routeIs('admin.users.*')
-                        ? 'bg-blue-50 text-blue-700'
-                        : 'text-gray-700 hover:bg-gray-100' }}">
+                   class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group
+                   {{ request()->routeIs('admin.users.*') || request()->routeIs('admin.create-user')
+                       ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/25'
+                       : 'text-slate-400 hover:text-white hover:bg-slate-800/70' }}">
 
-                    <i class="fa-solid fa-users"></i>
+                    <i class="fa-solid fa-users text-[13px] w-5 text-center
+                       {{ request()->routeIs('admin.users.*') || request()->routeIs('admin.create-user')
+                           ? ''
+                           : 'group-hover:scale-110 transition-transform' }}"></i>
 
-                    Kelola User
+                    <span>Kelola User</span>
 
                 </a>
 
-                {{-- Kelola Course --}}
                 <a href="{{ route('admin.courses.index') }}"
-                    class="flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-medium transition
-                    {{ request()->routeIs('admin.courses.*')
-                        ? 'bg-blue-50 text-blue-700'
-                        : 'text-gray-700 hover:bg-gray-100' }}">
+                   class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group
+                   {{ request()->routeIs('admin.courses.*')
+                       ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/25'
+                       : 'text-slate-400 hover:text-white hover:bg-slate-800/70' }}">
 
-                    <i class="fa-solid fa-book"></i>
+                    <i class="fa-solid fa-book text-[13px] w-5 text-center
+                       {{ request()->routeIs('admin.courses.*')
+                           ? ''
+                           : 'group-hover:scale-110 transition-transform' }}"></i>
 
-                    Kelola Course
+                    <span>Kelola Course</span>
 
                 </a>
+
             @endif
 
+            {{-- ── LECTURER MENU ──────────────────────────────── --}}
             @if (auth()->user()->hasRole('lecturer'))
-                {{-- Kelola Course --}}
+
                 <a href="{{ route('lecturer.courses.index') }}"
-                    class="flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-medium transition
-                    {{ request()->routeIs('lecturer.courses.*')
-                        ? 'bg-blue-50 text-blue-700'
-                        : 'text-gray-700 hover:bg-gray-100' }}">
+                   class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group
+                   {{ request()->routeIs('lecturer.courses.*') || request()->routeIs('lecturer.materials.*') || request()->routeIs('lecturer.assignments.*')
+                       ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/25'
+                       : 'text-slate-400 hover:text-white hover:bg-slate-800/70' }}">
 
-                    <i class="fa-solid fa-book"></i>
+                    <i class="fa-solid fa-book text-[13px] w-5 text-center
+                       {{ request()->routeIs('lecturer.courses.*') || request()->routeIs('lecturer.materials.*') || request()->routeIs('lecturer.assignments.*')
+                           ? ''
+                           : 'group-hover:scale-110 transition-transform' }}"></i>
 
-                    Kelola Course
+                    <span>Kelola Course</span>
 
                 </a>
 
-                {{-- Kelola Mahasiswa --}}
                 <a href="{{ route('lecturer.students.index') }}"
-                    class="flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-medium transition
-                    {{ request()->routeIs('lecturer.students.*')
-                        ? 'bg-blue-50 text-blue-700'
-                        : 'text-gray-700 hover:bg-gray-100' }}">
+                   class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group
+                   {{ request()->routeIs('lecturer.students.*')
+                       ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/25'
+                       : 'text-slate-400 hover:text-white hover:bg-slate-800/70' }}">
 
-                    <i class="fa-solid fa-user-graduate"></i>
+                    <i class="fa-solid fa-user-graduate text-[13px] w-5 text-center
+                       {{ request()->routeIs('lecturer.students.*')
+                           ? ''
+                           : 'group-hover:scale-110 transition-transform' }}"></i>
 
-                    Kelola Mahasiswa
+                    <span>Kelola Mahasiswa</span>
 
                 </a>
 
-                {{-- Penilaian --}}
                 <a href="{{ route('lecturer.grades.index') }}"
-                    class="flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-medium transition
-                    {{ request()->routeIs('lecturer.grades.*')
-                        ? 'bg-blue-50 text-blue-700'
-                        : 'text-gray-700 hover:bg-gray-100' }}">
+                   class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group
+                   {{ request()->routeIs('lecturer.grades.*')
+                       ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/25'
+                       : 'text-slate-400 hover:text-white hover:bg-slate-800/70' }}">
 
-                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star text-[13px] w-5 text-center
+                       {{ request()->routeIs('lecturer.grades.*')
+                           ? ''
+                           : 'group-hover:scale-110 transition-transform' }}"></i>
 
-                    Penilaian
+                    <span>Penilaian</span>
 
                 </a>
+
             @endif
 
-            {{-- Profile --}}
+        </nav>
+
+        {{-- ──────────────────────────────────────────────────── --}}
+        {{-- USER SECTION (bottom)                                --}}
+        {{-- ──────────────────────────────────────────────────── --}}
+        <div class="shrink-0 border-t border-slate-800/60 px-4 py-4 space-y-2">
+
+            {{-- User Info --}}
             <a href="{{ route('profile.edit') }}"
-                class="flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-medium text-gray-700 hover:bg-gray-100 transition">
+               class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-800/70 transition-all duration-200 group">
 
-                <i class="fa-solid fa-user"></i>
+                {{-- Avatar --}}
+                <div class="w-9 h-9 rounded-lg bg-indigo-600/20 text-indigo-400 flex items-center justify-center font-semibold text-sm shrink-0 ring-1 ring-indigo-500/20">
+                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                </div>
 
-                Profile
+                {{-- Info --}}
+                <div class="flex-1 min-w-0">
+                    <p class="text-sm font-semibold text-slate-200 truncate group-hover:text-white transition-colors">
+                        {{ Auth::user()->name }}
+                    </p>
+                    <p class="text-[11px] text-slate-500 truncate capitalize">
+                        {{ Auth::user()->getRoleNames()->first() }}
+                    </p>
+                </div>
+
+                <i class="fa-solid fa-chevron-right text-[10px] text-slate-600 group-hover:text-slate-400 transition-colors"></i>
 
             </a>
 
@@ -360,11 +211,11 @@
                 @csrf
 
                 <button type="submit"
-                    class="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-medium text-red-600 hover:bg-red-50 transition">
+                        class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-500 hover:text-red-400 hover:bg-red-500/10 transition-all duration-200 group">
 
-                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <i class="fa-solid fa-right-from-bracket text-[13px] w-5 text-center group-hover:scale-110 transition-transform"></i>
 
-                    Logout
+                    <span>Logout</span>
 
                 </button>
 
@@ -372,6 +223,35 @@
 
         </div>
 
+    </aside>
+
+    {{-- ======================================================== --}}
+    {{-- MOBILE TOP BAR                                           --}}
+    {{-- ======================================================== --}}
+    <div class="sticky top-0 z-30 flex items-center h-16 px-4 bg-white/80 backdrop-blur-lg border-b border-gray-200/60 lg:hidden">
+
+        {{-- Hamburger --}}
+        <button @click="sidebarOpen = true"
+                class="w-10 h-10 rounded-xl border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-100 transition">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        {{-- Logo --}}
+        <a href="{{ auth()->user()->dashboard_route }}" class="flex items-center gap-2 ml-3">
+            <div class="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center text-xs">
+                <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <span class="font-bold text-gray-900 text-sm">PintarKan</span>
+        </a>
+
+        {{-- User Avatar (right) --}}
+        <div class="ml-auto">
+            <a href="{{ route('profile.edit') }}"
+               class="w-9 h-9 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center font-semibold text-sm">
+                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+            </a>
+        </div>
+
     </div>
 
-</nav>
+</div>

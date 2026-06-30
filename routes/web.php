@@ -121,6 +121,10 @@ Route::middleware(['auth', 'role:lecturer'])
         ->name('lecturer.assignments.grade');
     Route::get('/students', [LecturerStudentController::class, 'index'])
         ->name('lecturer.students.index');
+    Route::get('/students/{student}', [LecturerStudentController::class, 'show'])
+        ->name('lecturer.students.show');
+    Route::get('/students/{student}/export-pdf', [LecturerStudentController::class, 'exportPdf'])
+        ->name('lecturer.students.export-pdf');
     Route::get('/grades', [LecturerGradeController::class, 'index'])
         ->name('lecturer.grades.index');
 

@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Animated hero background */
+@layer utilities {
+    .hero-bg-animated {
+        background: linear-gradient(135deg, #ffff, #a1c4fd);
+        background-size: 300% 300%;
+        animation: heroGradient 12s ease infinite;
+    }
+    @keyframes heroGradient {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+}

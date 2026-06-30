@@ -28,11 +28,11 @@
 
                         </div>
 
-                        <h1 class="text-4xl font-bold text-gray-900">
+                        <h1 class="text-3xl font-bold text-gray-900">
                             Dashboard Admin
                         </h1>
 
-                        <p class="text-gray-500 mt-3 text-lg">
+                        <p class="text-gray-500 mt-3 text-base">
                             Kelola user, course, dan aktivitas LMS PintarKan.
                         </p>
 
@@ -46,7 +46,7 @@
             <div class="grid grid-cols-2 xl:grid-cols-4 gap-6">
 
                 {{-- Users --}}
-                <div class="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm hover:shadow-lg transition">
+                <div class="bg-white border border-gray-200 rounded-3xl p-4 shadow-sm hover:shadow-lg transition">
 
                     <div class="flex items-start justify-between">
 
@@ -56,7 +56,7 @@
                                 Total Users
                             </p>
 
-                            <h2 class="text-4xl font-bold text-gray-900 mt-3">
+                            <h2 class="text-3xl font-bold text-gray-900 mt-3">
                                 {{ $totalUsers ?? 0 }}
                             </h2>
 
@@ -74,7 +74,7 @@
                 </div>
 
                 {{-- Lecturers --}}
-                <div class="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm hover:shadow-lg transition">
+                <div class="bg-white border border-gray-200 rounded-3xl p-4 shadow-sm hover:shadow-lg transition">
 
                     <div class="flex items-start justify-between">
 
@@ -102,7 +102,7 @@
                 </div>
 
                 {{-- Students --}}
-                <div class="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm hover:shadow-lg transition">
+                <div class="bg-white border border-gray-200 rounded-3xl p-4 shadow-sm hover:shadow-lg transition">
 
                     <div class="flex items-start justify-between">
 
@@ -112,7 +112,7 @@
                                 Mahasiswa
                             </p>
 
-                            <h2 class="text-4xl font-bold text-gray-900 mt-3">
+                            <h2 class="text-3xl font-bold text-gray-900 mt-3">
                                 {{ $totalStudents ?? 0 }}
                             </h2>
 
@@ -130,7 +130,7 @@
                 </div>
 
                 {{-- Courses --}}
-                <div class="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm hover:shadow-lg transition">
+                <div class="bg-white border border-gray-200 rounded-3xl p-4 shadow-sm hover:shadow-lg transition">
 
                     <div class="flex items-start justify-between">
 
@@ -160,10 +160,10 @@
             </div>
 
             {{-- MAIN CONTENT --}}
-            <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 xl:grid-cols-3 gap-4">
 
                 {{-- COURSES --}}
-                <div class="xl:col-span-2">
+                <div class="xl:col-span-4">
 
                     <div class="bg-white border border-gray-200 rounded-3xl shadow-sm p-6">
 
@@ -172,11 +172,11 @@
 
                             <div>
 
-                                <h2 class="text-2xl font-bold text-gray-900">
+                                <h2 class="text-xl font-bold text-gray-900">
                                     Mata Kuliah Terbaru
                                 </h2>
 
-                                <p class="text-gray-500 mt-2">
+                                <p class="text-sm text-gray-500 mt-2">
                                     Course terbaru yang ditambahkan ke sistem.
                                 </p>
 
@@ -196,7 +196,7 @@
 
                             @forelse ($courses as $course)
                                 <div
-                                    class="border border-gray-200 rounded-3xl p-6 hover:border-blue-300 hover:shadow-md transition bg-gray-50/50">
+                                    class="border border-gray-200 rounded-3xl p-4 hover:border-blue-300 hover:shadow-md transition bg-gray-50/50">
 
                                     <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
 
@@ -316,73 +316,6 @@
                         {{-- Pagination --}}
                         <div class="mt-8">
                             {{ $courses->links() }}
-                        </div>
-
-                    </div>
-
-                </div>
-
-                {{-- QUICK ACTION --}}
-                <div>
-
-                    <div class="bg-white border border-gray-200 rounded-3xl shadow-sm p-6">
-                        <h2 class="text-2xl mb-3 font-bold text-gray-900">
-                            Kelola
-                        </h2>
-                        <div class="space-y-4">
-                            {{-- Manage Users --}}
-                            <a href="{{ route('admin.users.index') }}"
-                                class="flex items-center gap-4 p-5 rounded-2xl border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition group">
-                                <div
-                                    class="w-14 h-14 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center text-xl">
-                                    <i class="fa-solid fa-users"></i>
-
-                                </div>
-
-                                <div>
-
-                                    <h3 class="font-semibold text-gray-900 group-hover:text-blue-700">
-                                        Kelola User
-                                    </h3>
-
-                                    <p class="text-sm text-gray-500 mt-1">
-                                        Atur seluruh pengguna LMS
-                                    </p>
-
-                                </div>
-
-                            </a>
-
-
-                            {{-- Manage --}}
-                            <a href="{{ route('admin.courses.index') }}"
-                                class="flex items-center gap-4 p-5 rounded-2xl border border-gray-200 hover:border-purple-300 hover:bg-purple-50 transition group">
-
-                                <div
-                                    class="w-14 h-14 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center text-xl">
-
-                                    <i class="fa-solid fa-layer-group"></i>
-
-                                </div>
-
-                                <div>
-
-                                    <h3 class="font-semibold text-gray-900 group-hover:text-purple-700">
-
-                                        Kelola Course
-
-                                    </h3>
-
-                                    <p class="text-sm text-gray-500 mt-1">
-
-                                        Atur seluruh mata kuliah
-
-                                    </p>
-
-                                </div>
-
-                            </a>
-
                         </div>
 
                     </div>

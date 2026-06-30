@@ -16,8 +16,8 @@
                             <i class="fa-solid fa-users-gear"></i>
                             User Management
                         </div>
-                        <h1 class="text-4xl font-bold text-gray-900">Kelola User</h1>
-                        <p class="text-gray-500 mt-3 text-lg">
+                        <h1 class="text-3xl font-bold text-gray-900">Kelola User</h1>
+                        <p class="text-gray-500 mt-3 text-base">
                             Kelola seluruh pengguna PintarKan (Admin, Lecturer, dan Student).
                         </p>
                     </div>
