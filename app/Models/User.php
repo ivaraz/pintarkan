@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use App\Notifications\ResetPasswordNotification;
 
 
 class User extends Authenticatable
@@ -55,5 +56,10 @@ class User extends Authenticatable
             $this->hasRole('lecturer') => route('lecturer.dashboard'),
             default => route('student.dashboard'),
         };
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
     }
 }

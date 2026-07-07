@@ -45,15 +45,12 @@
                     </div>
 
                     {{-- Navigation --}}
-                    <div class="flex items-center gap-3">
-
+                    {{-- <div class="flex items-center gap-3">
                         <a href="{{ route('login') }}"
                             class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition shadow-sm">
-
                             Login
                         </a>
-
-                    </div>
+                    </div> --}}
 
                 </div>
 
@@ -63,23 +60,26 @@
 
         {{-- Hero --}}
         <section class="relative flex items-center justify-center min-h-screen hero-bg-animated">
-    <div class="max-w-4xl mx-auto text-center px-4 py-24">
-        <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6">
-            Belajar Lebih <span class="text-indigo-600">Mudah, Efektif</span>
-        </h1>
-        <p class="text-lg text-gray-700 mb-8">
-            PintarKan adalah platform LMS modern yang memudahkan dosen dan mahasiswa mengelola pembelajaran secara cepat dan terintegrasi.
-        </p>
-        <div class="flex flex-col md:flex-row justify-center gap-4">
-            <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-lg font-medium transition shadow-lg">
-                Mulai Sekarang
-            </a>
-            <a href="#features" class="inline-flex items-center justify-center px-6 py-3 border border-gray-300 hover:bg-gray-100 rounded-xl text-lg text-gray-700 font-medium transition">
-                Pelajari Lebih
-            </a>
-        </div>
-    </div>
-</section>
+            <div class="max-w-4xl mx-auto text-center px-4 py-24">
+                <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6">
+                    Belajar Lebih <span class="text-indigo-600">Mudah, Efektif</span>
+                </h1>
+                <p class="text-lg text-gray-700 mb-8">
+                    PintarKan adalah platform LMS modern yang memudahkan dosen dan mahasiswa mengelola pembelajaran
+                    secara cepat dan terintegrasi.
+                </p>
+                <div class="flex flex-col md:flex-row justify-center gap-4">
+                    <a href="{{ route('login') }}"
+                        class="inline-flex items-center justify-center px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-lg font-medium transition shadow-lg">
+                        Mulai Sekarang
+                    </a>
+                    <a href="#features"
+                        class="inline-flex items-center justify-center px-6 py-3 border border-gray-300 hover:bg-gray-100 rounded-xl text-lg text-gray-700 font-medium transition">
+                        Pelajari Lebih
+                    </a>
+                </div>
+            </div>
+        </section>
 
         {{-- Features --}}
         <section id="features" class="py-24 bg-gray-50 border-t border-gray-100">
