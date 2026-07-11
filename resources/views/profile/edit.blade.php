@@ -28,11 +28,11 @@
 
                         </div>
 
-                        <h1 class="text-4xl font-bold text-gray-900">
+                        <h1 class="text-3xl font-bold text-gray-900">
                             My Profile
                         </h1>
 
-                        <p class="text-gray-500 mt-3 text-lg">
+                        <p class="text-gray-500 mt-3 text-base">
                             Kelola informasi akun dan keamanan profile Anda.
                         </p>
 

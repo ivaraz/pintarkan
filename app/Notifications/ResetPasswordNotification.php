@@ -21,6 +21,6 @@ class ResetPasswordNotification extends ResetPassword
             ->action('Reset Password', $url)
             ->line('Link ini akan kedaluwarsa dalam 60 menit.')
             ->line('Jika Anda tidak meminta reset password, abaikan email ini.')
-            ->salutation('Salam,\nPintarKan');
+            ->salutation('Salam,PintarKan');
     }
 }

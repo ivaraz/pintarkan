@@ -39,13 +39,13 @@
 
                             </div>
 
-                            <h1 class="text-4xl font-bold text-gray-900">
+                            <h1 class="text-3xl font-bold text-gray-900">
 
                                 Tambah Tugas
 
                             </h1>
 
-                            <p class="text-gray-500 mt-3 text-lg">
+                            <p class="text-gray-500 mt-3 text-base">
 
                                 Buat tugas baru untuk mahasiswa pada mata kuliah
                                 <span class="font-semibold text-gray-700">
@@ -254,20 +254,13 @@
 
                             </label>
 
-                            <input type="number" id="max_score" name="max_score" value="{{ old('max_score', 100) }}"
-                                min="1"
-                                class="w-full px-5 py-4 rounded-2xl border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition bg-gray-50 text-gray-900
-                                @error('max_score') border-red-500 focus:ring-red-500 focus:border-red-500 @enderror">
+                            <input type="number" id="max_score" name="max_score" value="100"
+                                class="w-full px-5 py-4 rounded-2xl border border-gray-200 bg-gray-100 text-gray-500 cursor-not-allowed transition font-medium"
+                                readonly>
 
-                            @error('max_score')
-                                <p class="mt-2 text-sm text-red-500 flex items-center gap-2">
-
-                                    <i class="fa-solid fa-circle-exclamation"></i>
-
-                                    {{ $message }}
-
-                                </p>
-                            @enderror
+                            <p class="mt-2 text-xs text-gray-400">
+                                Nilai maksimal tugas dikunci secara default pada 100.
+                            </p>
 
                         </div>
 

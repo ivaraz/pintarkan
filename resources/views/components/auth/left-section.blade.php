@@ -18,12 +18,7 @@
         {{-- Logo --}}
         <div class="flex items-center gap-4">
 
-            <div
-                class="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center text-2xl shrink-0">
-
-                <i class="fa-solid fa-graduation-cap"></i>
-
-            </div>
+            <img src="{{ asset('img/PintarKan.png') }}" alt="PintarKan" class="w-14 h-14 object-contain">
 
             <div>
 
@@ -55,7 +50,7 @@
                 {{ $title }}
             </h2>
 
-            <p class="mt-6 text-lg text-blue-100 leading-relaxed max-w-lg">
+            <p class="mt-6 text-base text-blue-100 leading-relaxed max-w-lg">
                 {{ $description }}
             </p>
 

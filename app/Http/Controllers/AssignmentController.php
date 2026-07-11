@@ -33,7 +33,6 @@ class AssignmentController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'due_date' => 'required|date',
-            'max_score' => 'nullable|integer|min:1',
             'file' => 'nullable|file|max:10240',
         ]);
 
@@ -51,7 +50,7 @@ class AssignmentController extends Controller
             'title' => $validated['title'],
             'description' => $validated['description'] ?? null,
             'due_date' => $validated['due_date'],
-            'max_score' => $validated['max_score'] ?? 100,
+            'max_score' => 100,
             'file' => $filePath,
         ]);
 

@@ -22,7 +22,7 @@
                                 <i class="fa-solid fa-chalkboard-user"></i>
                                 Detail Tugas
                             </div>
-                            <h1 class="text-4xl font-bold text-gray-900">{{ $assignment->title }}</h1>
+                            <h1 class="text-3xl font-bold text-gray-900">{{ $assignment->title }}</h1>
                             <p class="text-gray-500 mt-2">Mata Kuliah: <span class="font-semibold text-gray-700">{{ $course->title }}</span></p>
                         </div>
                     </div>

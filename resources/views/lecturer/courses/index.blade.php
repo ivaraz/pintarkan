@@ -96,13 +96,6 @@
 
                                     </div>
 
-                                    <div
-                                        class="w-14 h-14 rounded-2xl bg-blue-100 flex items-center justify-center text-2xl">
-
-                                        📘
-
-                                    </div>
-
                                 </div>
 
                                 {{-- STATS --}}
@@ -176,22 +169,6 @@
 
                                         + Mahasiswa
                                     </a>
-
-                                    {{-- DELETE --}}
-                                    <form action="{{ route('lecturer.courses.destroy', $course->id) }}" method="POST"
-                                        onsubmit="return confirm('Yakin ingin menghapus mata kuliah ini?')">
-
-                                        @csrf
-                                        @method('DELETE')
-
-                                        <button type="submit"
-                                            class="inline-flex items-center justify-center px-4 py-2 border border-red-300 bg-red-50 hover:bg-red-100 text-red-700 text-sm rounded-xl transition">
-
-                                            Hapus
-                                        </button>
-
-                                    </form>
-
                                 </div>
 
                             </div>

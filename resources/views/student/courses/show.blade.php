@@ -28,7 +28,7 @@
                 <div class="flex flex-col md:flex-row md:items-center justify-between">
                     <div>
                         <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">{{ $course->title }}</h1>
-                        <p class="mt-2 text-lg text-gray-600">{{ $course->description }}</p>
+                        <p class="mt-2 text-base text-gray-600">{{ $course->description }}</p>
                         <div class="mt-4 flex items-center space-x-4 text-sm text-gray-500">
                             <div class="flex items-center">
                                 <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

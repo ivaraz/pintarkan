@@ -4,9 +4,7 @@
         <div class="w-full max-w-md bg-white/80 backdrop-blur-lg rounded-xl shadow-lg p-8">
             {{-- Logo --}}
             <div class="flex items-center justify-center mb-6">
-                <div class="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center text-xl">
-                    <i class="fa-solid fa-graduation-cap"></i>
-                </div>
+                <img src="{{ asset('img/PintarKan.png') }}" alt="PintarKan" class="w-12 h-12 object-contain">
                 <h1 class="ml-3 text-2xl font-bold text-gray-900">PintarKan</h1>
             </div>
 
