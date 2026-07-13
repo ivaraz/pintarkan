@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->unique()->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->string('npm')->unique();
+            $table->integer('semester')->default(1);
             $table->timestamps();
         });
     }

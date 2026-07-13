@@ -16,11 +16,10 @@ class EnrollmentSeeder extends Seeder
         $courses = Course::all();
 
         foreach ($students as $student) {
-            // Enroll students in a random number of courses between 3 and 5
-            $randomCoursesCount = rand(3, 5);
-            $randomCourses = $courses->random($randomCoursesCount);
+            // Enroll students only in courses matching their semester
+            $matchingCourses = $courses->where('semester', $student->semester);
 
-            foreach ($randomCourses as $course) {
+            foreach ($matchingCourses as $course) {
                 Enrollment::firstOrCreate([
                     'student_id' => $student->id,
                     'course_id' => $course->id,

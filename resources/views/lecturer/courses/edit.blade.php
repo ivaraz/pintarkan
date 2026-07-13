@@ -180,6 +180,49 @@
 
                     </div>
 
+                    {{-- Semester --}}
+                    <div>
+
+                        <label for="semester" class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-3">
+
+                            <i class="fa-solid fa-graduation-cap text-purple-600"></i>
+
+                            Semester
+
+                            <span class="text-red-500">*</span>
+
+                        </label>
+
+                        <select id="semester" name="semester"
+                            class="w-full px-5 py-4 rounded-2xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition bg-gray-50 text-gray-900
+                            @error('semester') border-red-500 focus:ring-red-500 focus:border-red-500 @enderror"
+                            required>
+
+                            <option value="">
+                                -- Pilih Semester --
+                            </option>
+
+                            @for ($i = 1; $i <= 8; $i++)
+                                <option value="{{ $i }}"
+                                    {{ old('semester', $course->semester) == $i ? 'selected' : '' }}>
+                                    Semester {{ $i }}
+                                </option>
+                            @endfor
+
+                        </select>
+
+                        @error('semester')
+                            <p class="mt-2 text-sm text-red-500 flex items-center gap-2">
+
+                                <i class="fa-solid fa-circle-exclamation"></i>
+
+                                {{ $message }}
+
+                            </p>
+                        @enderror
+
+                    </div>
+
                     {{-- Description --}}
                     <div>
 

@@ -202,7 +202,9 @@
                                 <div
                                     class="p-4 border border-gray-200 rounded-lg hover:bg-blue-50 transition-colors flex flex-col h-full bg-gray-50/50">
                                     <div class="flex-1">
-                                        <h3 class="font-semibold text-gray-900 text-lg">{{ $enrollment->course->title }}
+                                        <h3 class="font-semibold text-gray-900 text-lg flex items-center justify-between gap-2">
+                                            <span>{{ $enrollment->course->title }}</span>
+                                            <span class="shrink-0 px-2 py-0.5 bg-blue-50 text-blue-700 text-xs font-semibold rounded-md border border-blue-100">Sem. {{ $enrollment->course->semester }}</span>
                                         </h3>
                                         <p class="text-sm text-gray-600 mt-1">Dosen:
                                             {{ $enrollment->course->lecturers->name ?? 'N/A' }}</p>

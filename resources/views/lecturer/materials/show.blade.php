@@ -101,7 +101,7 @@
                             Edit Materi
                         </a>
                         
-                        <form action="{{ route('lecturer.materials.destroy', [$course, $material]) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus materi ini?')" class="w-full">
+                        <form action="{{ route('lecturer.materials.destroy', [$course, $material]) }}" method="POST" class="delete-form w-full" data-title="Hapus Materi" data-message="Apakah Anda yakin ingin menghapus materi '{{ $material->title }}'? Tindakan ini tidak dapat dibatalkan.">
                             @csrf
                             @method('DELETE')
                             <button type="submit"

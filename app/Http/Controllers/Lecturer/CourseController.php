@@ -38,10 +38,15 @@ class CourseController extends Controller
     {
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
+            'semester' => ['required', 'integer', 'min:1', 'max:8'],
             'description' => ['nullable', 'string'],
         ], [
             'title.required' => 'Judul matkul harus diisi',
             'title.max' => 'Judul matkul maksimal 255 karakter',
+            'semester.required' => 'Semester harus diisi',
+            'semester.integer' => 'Semester harus berupa angka',
+            'semester.min' => 'Semester minimal 1',
+            'semester.max' => 'Semester maksimal 8',
         ]);
 
         try {
@@ -101,7 +106,15 @@ class CourseController extends Controller
 
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
+            'semester' => ['required', 'integer', 'min:1', 'max:8'],
             'description' => ['nullable', 'string'],
+        ], [
+            'title.required' => 'Judul matkul harus diisi',
+            'title.max' => 'Judul matkul maksimal 255 karakter',
+            'semester.required' => 'Semester harus diisi',
+            'semester.integer' => 'Semester harus berupa angka',
+            'semester.min' => 'Semester minimal 1',
+            'semester.max' => 'Semester maksimal 8',
         ]);
 
         try {
@@ -142,7 +155,9 @@ class CourseController extends Controller
 
         $course->load('enrollments');
         $enrolledStudentIds = $course->enrollments()->pluck('student_id')->toArray();
-        $students = Student::whereNotIn('id', $enrolledStudentIds)->get();
+        $students = Student::whereNotIn('id', $enrolledStudentIds)
+            ->where('semester', $course->semester)
+            ->get();
         return view('lecturer.courses.add-students', compact('course', 'students'));
     }
 
@@ -162,6 +177,16 @@ class CourseController extends Controller
             'student_ids.required' => 'Pilih minimal satu mahasiswa',
             'student_ids.*.exists' => 'Data mahasiswa tidak valid',
         ]);
+
+        $hasMismatch = Student::whereIn('id', $validated['student_ids'])
+            ->where('semester', '!=', $course->semester)
+            ->exists();
+
+        if ($hasMismatch) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'student_ids' => ['Hanya dapat menambahkan mahasiswa yang berada di Semester ' . $course->semester]
+            ]);
+        }
 
         try {
             foreach ($validated['student_ids'] as $studentId) {

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('lecturer_id')->constrained()->cascadeOnDelete();
             $table->string('title');
+            $table->integer('semester')->default(1);
             $table->text('description')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();

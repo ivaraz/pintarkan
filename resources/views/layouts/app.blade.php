@@ -35,6 +35,7 @@
         </div>
 
     </div>
+    <x-delete-confirm-modal />
 </body>
 
 </html>

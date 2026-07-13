@@ -129,8 +129,9 @@
                                                 Edit
                                             </a>
                                             <form action="{{ route('admin.users.destroy', $user) }}" method="POST"
-                                                class="inline"
-                                                onsubmit="return confirm('Apakah Anda yakin ingin menghapus user ini? Semua data terkait (profil & pendaftaran) akan ikut terhapus secara permanen.');">
+                                                class="delete-form inline"
+                                                data-title="Hapus Pengguna"
+                                                data-message="Apakah Anda yakin ingin menghapus pengguna '{{ $user->name }}'? Semua data terkait (profil & pendaftaran) akan ikut terhapus secara permanen.">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit"

@@ -236,6 +236,15 @@
                                                 <div
                                                     class="inline-flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-xl text-sm text-gray-600">
 
+                                                    <i class="fa-solid fa-graduation-cap text-orange-600"></i>
+
+                                                    Semester {{ $course->semester }}
+
+                                                </div>
+
+                                                <div
+                                                    class="inline-flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-xl text-sm text-gray-600">
+
                                                     <i class="fa-solid fa-chalkboard-user text-green-600"></i>
 
                                                     {{ $course->lecturers->name ?? 'Belum Ada Dosen' }}

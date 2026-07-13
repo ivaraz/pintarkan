@@ -50,6 +50,15 @@
                             <div class="flex flex-wrap items-center gap-3 mt-5">
 
                                 <div
+                                    class="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-blue-50 border border-blue-100 text-blue-700 text-sm font-medium">
+
+                                    <i class="fa-solid fa-graduation-cap"></i>
+
+                                    Semester {{ $course->semester }}
+
+                                </div>
+
+                                <div
                                     class="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-green-50 border border-green-100 text-green-700 text-sm font-medium">
 
                                     <i class="fa-solid fa-chalkboard-user"></i>
@@ -416,8 +425,9 @@
 
                                             <form
                                                 action="{{ route('admin.courses.remove-student', [$course, $enrollment]) }}"
-                                                method="POST" class="inline"
-                                                onsubmit="return confirm('Apakah Anda yakin ingin menghapus mahasiswa ini?')">
+                                                method="POST" class="delete-form inline"
+                                                data-title="Keluarkan Mahasiswa"
+                                                data-message="Apakah Anda yakin ingin mengeluarkan mahasiswa {{ $enrollment->student->name }} dari mata kuliah ini?">
 
                                                 @csrf
                                                 @method('DELETE')

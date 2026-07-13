@@ -48,6 +48,15 @@
                             <div class="flex flex-wrap items-center gap-3 mt-5">
 
                                 <div
+                                    class="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-blue-50 border border-blue-100 text-blue-700 text-sm font-medium">
+
+                                    <i class="fa-solid fa-graduation-cap"></i>
+
+                                    Semester {{ $course->semester }}
+
+                                </div>
+
+                                <div
                                     class="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-green-50 border border-green-100 text-green-700 text-sm font-medium">
 
                                     <i class="fa-solid fa-user-graduate"></i>
@@ -655,7 +664,7 @@
                                     {{-- Action --}}
                                     <div class="flex items-center gap-3">
 
-                                        <form action="{{ route('lecturer.courses.remove-student', [$course->id, $enrollment->id]) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin mengeluarkan {{ $enrollment->student->name }} dari mata kuliah?')">
+                                        <form action="{{ route('lecturer.courses.remove-student', [$course->id, $enrollment->id]) }}" method="POST" class="delete-form" data-title="Keluarkan Mahasiswa" data-message="Apakah Anda yakin ingin mengeluarkan {{ $enrollment->student->name }} dari mata kuliah ini?">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="inline-flex items-center gap-2 px-4 py-2.5 border border-red-200 bg-red-50 hover:bg-red-100 text-red-600 rounded-xl transition text-sm font-semibold">

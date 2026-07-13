@@ -86,8 +86,9 @@
 
                                     <div class="flex-1">
 
-                                        <h2 class="text-xl font-bold text-gray-900">
-                                            {{ $course->title }}
+                                        <h2 class="text-xl font-bold text-gray-900 flex items-center justify-between gap-2">
+                                            <span>{{ $course->title }}</span>
+                                            <span class="shrink-0 px-2.5 py-1 bg-purple-50 text-purple-700 text-xs font-semibold rounded-lg border border-purple-100">Semester {{ $course->semester }}</span>
                                         </h2>
 
                                         <p class="text-sm text-gray-500 mt-3 leading-relaxed">

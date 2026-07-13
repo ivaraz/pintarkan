@@ -110,6 +110,43 @@
 
                 </div>
 
+                {{-- Filter & Sort Form --}}
+                <div class="px-8 py-5 bg-gray-50/50 border-b border-gray-100">
+                    <form action="{{ route('admin.courses.index') }}" method="GET" class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+                        
+                        {{-- Sort by Lecturer --}}
+                        <div>
+                            <label for="sort_lecturer" class="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2">Urutkan Dosen</label>
+                            <select id="sort_lecturer" name="sort_lecturer" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm bg-white text-gray-800">
+                                <option value="">Default (Tidak Diurutkan)</option>
+                                <option value="asc" {{ request('sort_lecturer') == 'asc' ? 'selected' : '' }}>Nama Dosen (A - Z)</option>
+                                <option value="desc" {{ request('sort_lecturer') == 'desc' ? 'selected' : '' }}>Nama Dosen (Z - A)</option>
+                            </select>
+                        </div>
+
+                        {{-- Sort by Semester --}}
+                        <div>
+                            <label for="sort_semester" class="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2">Urutkan Semester</label>
+                            <select id="sort_semester" name="sort_semester" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm bg-white text-gray-800">
+                                <option value="">Default (Tidak Diurutkan)</option>
+                                <option value="asc" {{ request('sort_semester') == 'asc' ? 'selected' : '' }}>Semester (Terendah - Tertinggi)</option>
+                                <option value="desc" {{ request('sort_semester') == 'desc' ? 'selected' : '' }}>Semester (Tertinggi - Terendah)</option>
+                            </select>
+                        </div>
+
+                        {{-- Action Buttons --}}
+                        <div class="flex gap-2">
+                            <button type="submit" class="flex-1 inline-flex justify-center items-center gap-1.5 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition text-xs shadow-sm">
+                                <i class="fa-solid fa-sort text-[10px]"></i>
+                                Urutkan
+                            </button>
+                            <a href="{{ route('admin.courses.index') }}" class="inline-flex justify-center items-center px-4 py-3 border border-gray-300 hover:bg-gray-100 text-gray-700 rounded-xl font-bold transition text-xs">
+                                Reset
+                            </a>
+                        </div>
+                    </form>
+                </div>
+
                 {{-- Table --}}
                 <div class="overflow-x-auto">
 
@@ -164,11 +201,12 @@
 
                                                 </h3>
 
-                                                <p class="text-sm text-gray-500 mt-1">
-
-                                                    ID:
-                                                    #{{ $course->id }}
-
+                                                <p class="text-xs text-gray-500 mt-1.5 flex items-center gap-2">
+                                                    <span class="font-mono">ID: #{{ $course->id }}</span>
+                                                    <span class="inline-flex items-center gap-1 px-1.5 py-0.5 bg-blue-50 text-blue-700 text-[11px] font-semibold rounded border border-blue-100">
+                                                        <i class="fa-solid fa-graduation-cap text-[10px]"></i>
+                                                        Semester {{ $course->semester }}
+                                                    </span>
                                                 </p>
 
                                             </div>
@@ -233,8 +271,9 @@
 
                                             {{-- Delete --}}
                                             <form action="{{ route('admin.courses.destroy', $course) }}" method="POST"
-                                                class="inline"
-                                                onsubmit="return confirm('Apakah Anda yakin ingin menghapus mata kuliah ini?')">
+                                                class="delete-form inline"
+                                                data-title="Hapus Mata Kuliah"
+                                                data-message="Apakah Anda yakin ingin menghapus mata kuliah '{{ $course->title }}'? Semua data terkait (materi, tugas) juga akan dihapus secara permanen.">
 
                                                 @csrf
                                                 @method('DELETE')

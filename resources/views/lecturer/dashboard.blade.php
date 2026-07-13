@@ -236,6 +236,16 @@
                                                 {{-- Stats --}}
                                                 <div class="flex flex-wrap items-center gap-3 mt-5">
 
+                                                    {{-- Semester --}}
+                                                    <div
+                                                        class="inline-flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-xl text-sm text-gray-600">
+
+                                                        <i class="fa-solid fa-graduation-cap text-orange-600"></i>
+
+                                                        Semester {{ $course->semester }}
+
+                                                    </div>
+
                                                     {{-- Students --}}
                                                     <div
                                                         class="inline-flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-xl text-sm text-gray-600">

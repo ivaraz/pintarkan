@@ -14,9 +14,31 @@ class CourseController extends Controller
     /**
      * Display a listing of courses.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $courses = Course::with(['lecturers', 'enrollments'])->paginate(15);
+        $query = Course::query()->with(['lecturers', 'enrollments']);
+
+        // Sort by Lecturer
+        $sortLecturer = $request->get('sort_lecturer');
+        if (in_array($sortLecturer, ['asc', 'desc'])) {
+            $query->select('courses.*')
+                ->join('lecturers', 'courses.lecturer_id', '=', 'lecturers.id')
+                ->orderBy('lecturers.name', $sortLecturer);
+        }
+
+        // Sort by Semester
+        $sortSemester = $request->get('sort_semester');
+        if (in_array($sortSemester, ['asc', 'desc'])) {
+            $query->orderBy('semester', $sortSemester);
+        }
+
+        // Default sort if no sorting is set
+        if (!in_array($sortLecturer, ['asc', 'desc']) && !in_array($sortSemester, ['asc', 'desc'])) {
+            $query->orderBy('courses.id', 'desc');
+        }
+
+        $courses = $query->paginate(15)->withQueryString();
+
         return view('admin.courses.index', compact('courses'));
     }
 
@@ -36,11 +58,16 @@ class CourseController extends Controller
     {
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
+            'semester' => ['required', 'integer', 'min:1', 'max:8'],
             'description' => ['nullable', 'string'],
             'lecturer_id' => ['required', 'exists:lecturers,id'],
         ], [
             'title.required' => 'Judul matkul harus diisi',
             'title.max' => 'Judul matkul maksimal 255 karakter',
+            'semester.required' => 'Semester harus diisi',
+            'semester.integer' => 'Semester harus berupa angka',
+            'semester.min' => 'Semester minimal 1',
+            'semester.max' => 'Semester maksimal 8',
             'lecturer_id.required' => 'Dosen harus dipilih',
             'lecturer_id.exists' => 'Dosen tidak valid',
         ]);
@@ -88,8 +115,18 @@ class CourseController extends Controller
     {
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
+            'semester' => ['required', 'integer', 'min:1', 'max:8'],
             'description' => ['nullable', 'string'],
             'lecturer_id' => ['required', 'exists:lecturers,id'],
+        ], [
+            'title.required' => 'Judul matkul harus diisi',
+            'title.max' => 'Judul matkul maksimal 255 karakter',
+            'semester.required' => 'Semester harus diisi',
+            'semester.integer' => 'Semester harus berupa angka',
+            'semester.min' => 'Semester minimal 1',
+            'semester.max' => 'Semester maksimal 8',
+            'lecturer_id.required' => 'Dosen harus dipilih',
+            'lecturer_id.exists' => 'Dosen tidak valid',
         ]);
 
         try {
@@ -122,7 +159,9 @@ class CourseController extends Controller
     {
         $course->load('enrollments');
         $enrolledStudentIds = $course->enrollments()->pluck('student_id')->toArray();
-        $students = Student::whereNotIn('id', $enrolledStudentIds)->get();
+        $students = Student::whereNotIn('id', $enrolledStudentIds)
+            ->where('semester', $course->semester)
+            ->get();
         return view('admin.courses.add-students', compact('course', 'students'));
     }
 
@@ -138,6 +177,16 @@ class CourseController extends Controller
             'student_ids.required' => 'Pilih minimal satu mahasiswa',
             'student_ids.*.exists' => 'Data mahasiswa tidak valid',
         ]);
+
+        // Validate that all students belong to the course's semester
+        $hasMismatch = Student::whereIn('id', $validated['student_ids'])
+            ->where('semester', '!=', $course->semester)
+            ->exists();
+        if ($hasMismatch) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'student_ids' => ['Hanya dapat menambahkan mahasiswa yang berada di Semester ' . $course->semester]
+            ]);
+        }
 
         try {
             foreach ($validated['student_ids'] as $studentId) {
