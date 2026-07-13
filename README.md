@@ -1,58 +1,110 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🎓 PintarKan - Learning Management System (LMS) Modern
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <strong>Platform Pembelajaran Digital yang Efisien, Interaktif, dan Terintegrasi</strong>
 </p>
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 📌 Deskripsi Proyek
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+**PintarKan** adalah aplikasi berbasis web *Learning Management System* (LMS) modern yang dirancang untuk mendigitalkan dan memudahkan interaksi akademik antara **Admin**, **Dosen**, dan **Mahasiswa**. 
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Aplikasi ini berfokus pada kemudahan penggunaan (*user experience*), pemantauan progres belajar mahasiswa secara real-time, pengunggahan materi terpadu, serta sistem penilaian tugas yang efisien. PintarKan membantu institusi pendidikan mengelola kelas secara transparan dan responsif.
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 🚀 Fitur Utama Berdasarkan Akses Pengguna
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 1. 🛡️ Akses Admin (Administrator)
+*   **Dashboard Statistik**: Menampilkan metrik data keseluruhan sistem (jumlah total user, dosen, mahasiswa, mata kuliah, pendaftaran terbaru, dan daftar kelas).
+*   **Manajemen Pengguna (CRUD)**: Mengelola akun pengguna (Admin, Dosen, Mahasiswa), informasi profil dasar, dan penentuan hak akses.
+*   **Manajemen Mata Kuliah (CRUD)**: Membuat, mengedit, melihat, dan menghapus mata kuliah yang ditawarkan dalam sistem.
+*   **Manajemen Pendaftaran (Enrollment)**: Mendaftarkan mahasiswa ke mata kuliah secara manual atau menghapus pendaftaran yang tidak sesuai.
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+### 2. 👨‍🏫 Akses Dosen (Lecturer)
+*   **Dashboard Mengajar**: Statistik ringkas mengenai jumlah mata kuliah yang diampu, total mahasiswa unik, jumlah tugas, dan tugas yang belum dinilai (*pending*).
+*   **Pengelolaan Kelas Mandiri**: Mengakses kelas yang diajarkan, melihat rekapitulasi nilai, serta menambah/menghapus mahasiswa terdaftar secara langsung.
+*   **Manajemen Materi Pembelajaran (CRUD + Multi-file Upload)**: Membuat materi kuliah dengan dukungan unggah banyak file lampiran sekaligus, serta menghapus file tertentu secara dinamis saat memperbarui materi.
+*   **Manajemen Tugas & Penilaian**: Membuat tugas baru lengkap dengan tenggat waktu (*due date*) dan file lampiran, serta menilai hasil pengumpulan tugas mahasiswa dengan skor angka dan umpan balik (*note*).
+*   **Pusat Penilaian Terpadu (Unified Grades)**: Halaman khusus untuk memfilter dan memberikan nilai ke semua pengumpulan tugas mahasiswa dari seluruh mata kuliah yang diampu dalam satu tempat.
+*   **Pemantauan Progres Belajar Mahasiswa**: Memantau progres belajar mahasiswa secara langsung (persentase materi yang dibaca + tugas yang dikumpulkan).
+*   **Ekspor Rekap Laporan PDF**: Mengunduh rekapitulasi nilai kelas mahasiswa secara instan ke format PDF yang rapi (menggunakan DomPDF).
 
-## Agentic Development
+### 3. 🎓 Akses Mahasiswa (Student)
+*   **Dashboard Akademik**: Menampilkan daftar mata kuliah aktif, total tugas, tugas yang sudah dinilai, nilai rata-rata, serta daftar tugas aktif terdekat berdasarkan tenggat waktu.
+*   **Visual Progress Tracker**: Grafik indikator kemajuan belajar (*progress bar*) visual per mata kuliah yang diperbarui secara real-time setelah mahasiswa mengakses materi pembelajaran dan mengirim tugas.
+*   **Akses Materi Kuliah**: Membaca materi, mengunduh file pendukung, dan sistem otomatis mencatat status materi telah dibaca setelah diakses.
+*   **Pengumpulan Tugas**: Melihat instruksi tugas, mengunduh lampiran soal dari dosen, dan mengunggah berkas jawaban/hasil tugas sebelum batas waktu selesai.
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+---
 
+## 🛠️ Arsitektur & Teknologi
+
+Proyek ini dibangun menggunakan teknologi modern untuk menjamin performa yang andal dan antarmuka yang dinamis:
+
+*   **Core Framework**: PHP 8.3+ & Laravel 13.x
+*   **Frontend Tools**: Tailwind CSS & Vite
+*   **Database**: MySQL / SQLite
+*   **Library Utama & Dependensi**:
+    *   `spatie/laravel-permission` (Role-Based Access Control / RBAC)
+    *   `barryvdh/laravel-dompdf` (Render file laporan menjadi PDF)
+    *   `laravel/breeze` (Sistem autentikasi dasar yang minimalis)
+
+---
+
+## 🔑 Kredensial Akun Default (Seeder)
+
+Setelah menjalankan seeder database, Anda dapat masuk ke aplikasi menggunakan akun simulasi berikut (semua akun menggunakan password: **`123`**):
+
+| Role | Email | Password | Keterangan |
+| :--- | :--- | :--- | :--- |
+| **Admin** | `admin@unsur.ac.id` | `123` | Hak akses penuh sistem |
+| **Dosen** | `dosen1@unsur.ac.id` s.d `dosen5@unsur.ac.id` | `123` | Akun Dosen Pengampu |
+| **Mahasiswa** | `mhs1@unsur.ac.id` s.d `mhs10@unsur.ac.id` | `123` | Akun Mahasiswa Kelas |
+
+---
+
+## 💿 Panduan Instalasi dan Penggunaan
+
+Ikuti langkah-langkah di bawah ini untuk menjalankan aplikasi PintarKan di komputer lokal Anda:
+
+### 1. Persiapan Awal
+Pastikan Anda sudah menginstal **PHP 8.3+**, **Composer**, **Node.js**, dan database server seperti **MySQL/MariaDB** (melalui XAMPP/Laragon).
+
+### 2. Konfigurasi Environment (`.env`)
+Salin file `.env.example` menjadi `.env`:
 ```bash
-composer require laravel/boost --dev
+cp .env.example .env
+```
+Buka file `.env` dan konfigurasikan koneksi basis data Anda:
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=pintarkan
+DB_USERNAME=root
+DB_PASSWORD=
+```
+> [!IMPORTANT]
+> Buat database kosong bernama `pintarkan` di database manager Anda (misalnya phpMyAdmin) sebelum melanjutkan ke langkah berikutnya.
 
-php artisan boost:install
+### 3. Setup Project
+Jalankan perintah berikut untuk menginstal dependensi PHP dan Javascript, membuat key aplikasi, serta menjalankan migrasi awal:
+```bash
+composer run setup
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### 4. Seed Database (Mengisi Data Awal)
+Jalankan perintah ini untuk mengisi database dengan data dummy awal (admin, dosen, mahasiswa, mata kuliah, materi, tugas, dan nilai):
+```bash
+php artisan db:seed
+```
 
-## Contributing
+### 5. Jalankan Aplikasi
+Gunakan perintah pintas untuk menjalankan Laravel Development Server dan compiler Vite secara bersamaan:
+```bash
+composer run dev
+```
+Setelah itu, buka browser Anda dan akses tautan: [http://127.0.0.1:8000](http://127.0.0.1:8000).
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
