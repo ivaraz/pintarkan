@@ -113,7 +113,7 @@
                                     class="bg-gray-50 text-gray-700 text-xs font-semibold uppercase border-b border-gray-100">
                                     <th class="py-4 px-8">Mahasiswa</th>
                                     <th class="py-4 px-6">Mata Kuliah</th>
-                                    <th class="py-4 px-6">Tugas / Max Poin</th>
+                                    <th class="py-4 px-6">Tugas</th>
                                     <th class="py-4 px-6">Tgl Mengumpulkan</th>
                                     <th class="py-4 px-6">File Jawaban</th>
                                     <th class="py-4 px-6">Nilai</th>
@@ -155,8 +155,6 @@
                                         <td class="py-5 px-6">
                                             <div class="font-bold text-gray-900 text-sm leading-snug">
                                                 {{ $assignment->title }}</div>
-                                            <div class="text-xs text-gray-400 mt-0.5">Max Score:
-                                                {{ $assignment->max_score }}p</div>
                                         </td>
 
                                         {{-- Date Submitted --}}

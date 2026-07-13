@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('file')->nullable();
             $table->dateTime('due_date');
             $table->integer('max_score')->default(100);
+            $table->boolean('allow_late')->default(false);
             $table->timestamps();
         });
     }

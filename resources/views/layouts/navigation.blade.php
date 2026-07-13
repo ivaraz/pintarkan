@@ -150,7 +150,7 @@
                         class="fa-solid fa-user-graduate text-[13px] w-5 text-center
                        {{ request()->routeIs('lecturer.students.*') ? '' : 'group-hover:scale-110 transition-transform' }}"></i>
 
-                    <span>Kelola Mahasiswa</span>
+                    <span>Mahasiswa</span>
 
                 </a>
 

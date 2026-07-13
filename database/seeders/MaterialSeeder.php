@@ -168,7 +168,7 @@ class MaterialSeeder extends Seeder
                         'course_id' => $course->id,
                         'title' => 'Materi ' . ($i + 1) . ' - ' . $faker->sentence(),
                         'content' => $faker->paragraph(),
-                        'file' => rand(0, 1) ? 'materials/sample.pdf' : null,
+                        'files' => rand(0, 1) ? ['materials/sample.pdf'] : [],
                     ]);
                 }
                 continue;
@@ -179,7 +179,7 @@ class MaterialSeeder extends Seeder
                     'course_id' => $course->id,
                     'title' => $materialInfo['title'],
                     'content' => $materialInfo['content'],
-                    'file' => rand(0, 1) ? 'materials/sample.pdf' : null,
+                    'files' => rand(0, 1) ? ['materials/sample.pdf'] : [],
                 ]);
             }
         }

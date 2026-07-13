@@ -52,17 +52,9 @@ class AssignmentController extends Controller
         }
 
         // Check deadline
-        if (Carbon::parse($assignment->due_date)->isPast()) {
+        if (Carbon::parse($assignment->due_date)->isPast() && !$assignment->allow_late) {
             return back()->with('error', 'Batas waktu pengumpulan tugas sudah terlewat.');
         }
-
-        $request->validate([
-            'file' => 'required|file|mimes:pdf,zip,rar,doc,docx|max:5120', // Max 5MB
-        ], [
-            'file.required' => 'File tugas wajib diupload.',
-            'file.mimes' => 'Format file harus berupa PDF, ZIP, RAR, atau Word.',
-            'file.max' => 'Ukuran file maksimal adalah 5MB.',
-        ]);
 
         $submission = Submission::where('assignment_id', $assignment->id)
             ->where('student_id', $student->id)
@@ -73,28 +65,41 @@ class AssignmentController extends Controller
             return back()->with('error', 'Tugas sudah dinilai dan tidak dapat diubah.');
         }
 
+        if (!$request->hasFile('file') && empty($request->input('online_text')) && !$submission) {
+            return back()->with('error', 'Harap isi teks online atau upload file tugas.');
+        }
+
+        $request->validate([
+            'file' => 'nullable|file|mimes:pdf,zip,rar,doc,docx|max:5120', // Max 5MB
+            'online_text' => 'nullable|string',
+        ], [
+            'file.mimes' => 'Format file harus berupa PDF, ZIP, RAR, atau Word.',
+            'file.max' => 'Ukuran file maksimal adalah 5MB.',
+        ]);
+
+        $path = $submission ? $submission->file : null;
+
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             $filename = time() . '_' . $student->npm . '_' . str_replace(' ', '_', $file->getClientOriginalName());
             
             // Store file in storage/app/public/submissions
             $path = $file->storeAs('submissions', $filename, 'public');
-
-            Submission::updateOrCreate(
-                [
-                    'assignment_id' => $assignment->id,
-                    'student_id' => $student->id,
-                ],
-                [
-                    'file' => $path,
-                    'status' => 'submitted',
-                    'submitted_at' => now(),
-                ]
-            );
-
-            return back()->with('success', 'Tugas berhasil dikumpulkan.');
         }
 
-        return back()->with('error', 'Gagal mengupload file.');
+        Submission::updateOrCreate(
+            [
+                'assignment_id' => $assignment->id,
+                'student_id' => $student->id,
+            ],
+            [
+                'file' => $path,
+                'online_text' => $request->input('online_text'),
+                'status' => 'submitted',
+                'submitted_at' => now(),
+            ]
+        );
+
+        return back()->with('success', 'Tugas berhasil dikumpulkan.');
     }
 }

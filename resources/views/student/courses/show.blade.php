@@ -178,9 +178,15 @@
                                                         <span class="block text-2xl font-black text-green-700">{{ $submission->grade->score ?? '-' }}</span>
                                                     </div>
                                                 @else
-                                                    <a href="{{ route('student.assignments.show', [$course->id, $assignment->id]) }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
-                                                        {{ $submission ? 'Lihat Tugas' : 'Kerjakan' }}
-                                                    </a>
+                                                    @if($isPast && !$assignment->allow_late && !$submission)
+                                                        <span class="inline-flex items-center px-3 py-1.5 text-sm font-medium text-red-600 bg-red-50 rounded-md border border-red-200">
+                                                            Tenggat Terlewati
+                                                        </span>
+                                                    @else
+                                                        <a href="{{ route('student.assignments.show', [$course->id, $assignment->id]) }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+                                                            {{ $submission ? 'Lihat Tugas' : 'Kerjakan' }}
+                                                        </a>
+                                                    @endif
                                                 @endif
                                             </div>
                                         </div>

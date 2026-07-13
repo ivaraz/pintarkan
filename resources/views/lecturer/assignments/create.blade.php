@@ -262,8 +262,22 @@
                                 Nilai maksimal tugas dikunci secara default pada 100.
                             </p>
 
-                        </div>
+                    </div>
 
+                    {{-- Allow Late Submission --}}
+                    <div class="bg-gray-50 border border-gray-200 p-5 rounded-2xl flex items-start gap-4">
+                        <div class="flex items-center h-5 mt-0.5">
+                            <input id="allow_late" name="allow_late" type="checkbox" value="1" {{ old('allow_late') ? 'checked' : '' }}
+                                class="w-5 h-5 text-purple-600 border-gray-300 rounded focus:ring-purple-500 cursor-pointer">
+                        </div>
+                        <div class="text-sm">
+                            <label for="allow_late" class="font-semibold text-gray-700 cursor-pointer select-none">
+                                Tetap Bisa Mengumpulkan Meskipun Tenggat Tanggal Sudah Lewat
+                            </label>
+                            <p class="text-gray-500 mt-1 select-none">
+                                Jika diaktifkan, mahasiswa masih diperbolehkan mengunggah jawaban tugas meskipun batas waktu pengumpulan telah terlewati.
+                            </p>
+                        </div>
                     </div>
 
                     {{-- File Upload --}}

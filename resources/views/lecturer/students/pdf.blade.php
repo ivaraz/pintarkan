@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Transkrip Nilai - {{ $student->name }}</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
         body {
             font-family: 'DejaVu Sans', Arial, sans-serif;
@@ -21,33 +26,32 @@
         .letterhead {
             padding: 20px 40px 0 40px;
         }
+
         .letterhead-inner {
             display: table;
             width: 100%;
             border-bottom: 3px solid #1e293b;
             padding-bottom: 12px;
         }
+
         .letterhead-logo {
             display: table-cell;
             width: 64px;
             vertical-align: middle;
         }
-        .logo-box {
+
+        .letterhead-logo img {
             width: 52px;
             height: 52px;
-            background: #4f46e5;
-            border-radius: 10px;
-            text-align: center;
-            line-height: 52px;
-            font-size: 24px;
-            color: white;
-            font-weight: 900;
+            display: block;
         }
+
         .letterhead-info {
             display: table-cell;
             vertical-align: middle;
             padding-left: 14px;
         }
+
         .letterhead-info .platform-name {
             font-size: 20px;
             font-weight: 900;
@@ -55,21 +59,25 @@
             letter-spacing: -0.5px;
             line-height: 1.1;
         }
+
         .letterhead-info .platform-name span {
             color: #4f46e5;
         }
+
         .letterhead-info .platform-tagline {
             font-size: 10px;
             color: #64748b;
             margin-top: 2px;
             font-style: italic;
         }
+
         .letterhead-right {
             display: table-cell;
             vertical-align: middle;
             text-align: right;
             width: 200px;
         }
+
         .letterhead-right .doc-type {
             font-size: 10px;
             font-weight: 700;
@@ -81,6 +89,7 @@
             padding: 3px 10px;
             border-radius: 4px;
         }
+
         .letterhead-right .doc-date {
             font-size: 9px;
             color: #94a3b8;
@@ -96,12 +105,14 @@
             display: table;
             width: 100%;
         }
+
         .platform-bar-item {
             display: table-cell;
             font-size: 9px;
             color: #475569;
             padding-right: 20px;
         }
+
         .platform-bar-item strong {
             color: #1e293b;
         }
@@ -113,6 +124,7 @@
             text-align: center;
             padding: 18px 40px 10px 40px;
         }
+
         .doc-title-block h1 {
             font-size: 15px;
             font-weight: 900;
@@ -120,17 +132,11 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
+
         .doc-title-block .doc-subtitle {
             font-size: 11px;
             color: #64748b;
             margin-top: 2px;
-        }
-        .doc-title-underline {
-            margin: 8px auto 0;
-            width: 60px;
-            height: 3px;
-            background: #4f46e5;
-            border-radius: 2px;
         }
 
         /* ═══════════════════════════════════════════════════
@@ -142,6 +148,7 @@
             border-radius: 6px;
             overflow: hidden;
         }
+
         .identity-header {
             background: #1e293b;
             color: white;
@@ -151,22 +158,26 @@
             letter-spacing: 0.5px;
             text-transform: uppercase;
         }
+
         .identity-body {
             display: table;
             width: 100%;
             padding: 12px 14px;
             background: #f8fafc;
         }
+
         .identity-col {
             display: table-cell;
             width: 50%;
             vertical-align: top;
         }
+
         .identity-row {
             display: table;
             width: 100%;
             margin-bottom: 6px;
         }
+
         .id-label {
             display: table-cell;
             width: 130px;
@@ -174,12 +185,14 @@
             color: #64748b;
             vertical-align: top;
         }
+
         .id-colon {
             display: table-cell;
             width: 10px;
             font-size: 10px;
             color: #64748b;
         }
+
         .id-value {
             display: table-cell;
             font-size: 10px;
@@ -193,6 +206,7 @@
         .table-section {
             margin: 16px 40px;
         }
+
         .table-section-title {
             font-size: 11px;
             font-weight: 800;
@@ -208,9 +222,11 @@
             border-collapse: collapse;
             border: 1px solid #cbd5e1;
         }
+
         table.grade-table thead tr {
             background: #1e293b;
         }
+
         table.grade-table thead th {
             padding: 9px 12px;
             font-size: 10px;
@@ -221,15 +237,19 @@
             text-align: left;
             border: none;
         }
+
         table.grade-table thead th.center {
             text-align: center;
         }
+
         table.grade-table tbody tr:nth-child(even) {
             background: #f8fafc;
         }
+
         table.grade-table tbody tr:nth-child(odd) {
             background: #ffffff;
         }
+
         table.grade-table tbody td {
             padding: 9px 12px;
             font-size: 10px;
@@ -237,9 +257,11 @@
             border-bottom: 1px solid #e2e8f0;
             vertical-align: middle;
         }
+
         table.grade-table tbody td.center {
             text-align: center;
         }
+
         table.grade-table tbody tr:last-child td {
             border-bottom: none;
         }
@@ -250,12 +272,30 @@
             font-weight: 900;
             display: block;
         }
-        .grade-a  { color: #059669; }
-        .grade-b  { color: #2563eb; }
-        .grade-c  { color: #d97706; }
-        .grade-d  { color: #dc2626; }
-        .grade-e  { color: #7c3aed; }
-        .grade-na { color: #94a3b8; }
+
+        .grade-a {
+            color: #059669;
+        }
+
+        .grade-b {
+            color: #2563eb;
+        }
+
+        .grade-c {
+            color: #d97706;
+        }
+
+        .grade-d {
+            color: #dc2626;
+        }
+
+        .grade-e {
+            color: #7c3aed;
+        }
+
+        .grade-na {
+            color: #94a3b8;
+        }
 
         .predikat-badge {
             display: inline-block;
@@ -267,14 +307,41 @@
             text-align: center;
             border-radius: 6px;
         }
-        .predikat-a { background: #dcfce7; color: #166534; }
-        .predikat-b { background: #dbeafe; color: #1e40af; }
-        .predikat-c { background: #fef3c7; color: #92400e; }
-        .predikat-d { background: #fee2e2; color: #991b1b; }
-        .predikat-e { background: #f3e8ff; color: #6b21a8; }
-        .predikat-na { background: #f1f5f9; color: #94a3b8; }
 
-        .no-data { color: #94a3b8; font-style: italic; }
+        .predikat-a {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .predikat-b {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .predikat-c {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .predikat-d {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .predikat-e {
+            background: #f3e8ff;
+            color: #6b21a8;
+        }
+
+        .predikat-na {
+            background: #f1f5f9;
+            color: #94a3b8;
+        }
+
+        .no-data {
+            color: #94a3b8;
+            font-style: italic;
+        }
 
         /* Total row */
         .total-row td {
@@ -283,8 +350,15 @@
             font-weight: 700;
             border-bottom: none !important;
         }
-        .total-row td .grade-final { color: #a5f3fc !important; }
-        .total-row td .predikat-badge { background: rgba(255,255,255,0.15) !important; color: #fff !important; }
+
+        .total-row td .grade-final {
+            color: #a5f3fc !important;
+        }
+
+        .total-row td .predikat-badge {
+            background: rgba(255, 255, 255, 0.15) !important;
+            color: #fff !important;
+        }
 
         /* ═══════════════════════════════════════════════════
            GRADING LEGEND
@@ -296,6 +370,7 @@
             border-radius: 6px;
             padding: 10px 14px;
         }
+
         .legend-title {
             font-size: 9px;
             font-weight: 700;
@@ -304,17 +379,22 @@
             letter-spacing: 0.5px;
             margin-bottom: 6px;
         }
+
         .legend-grid {
             display: table;
             width: 100%;
         }
+
         .legend-item {
             display: table-cell;
             font-size: 9px;
             color: #475569;
             padding-right: 8px;
         }
-        .legend-item strong { color: #1e293b; }
+
+        .legend-item strong {
+            color: #1e293b;
+        }
 
         /* ═══════════════════════════════════════════════════
            FOOTER / SIGNATURE
@@ -326,23 +406,58 @@
             display: table;
             width: calc(100% - 80px);
         }
-        .footer-left-cell, .footer-right-cell {
+
+        .footer-left-cell,
+        .footer-right-cell {
             display: table-cell;
             vertical-align: bottom;
         }
-        .footer-right-cell { text-align: right; }
+
+        .footer-right-cell {
+            text-align: right;
+        }
+
         .footer-note {
             font-size: 9px;
             color: #94a3b8;
             line-height: 1.6;
         }
-        .footer-note strong { color: #475569; }
-        .sign-label { font-size: 10px; color: #475569; }
-        .sign-gap   { margin-top: 44px; margin-bottom: 2px; border-bottom: 1px solid #475569; width: 160px; display: inline-block; }
-        .sign-name  { font-size: 11px; font-weight: 800; color: #1e293b; margin-top: 3px; }
-        .sign-nidn  { font-size: 9px; color: #64748b; }
-        .sign-title { font-size: 9px; color: #64748b; }
-        .watermark  {
+
+        .footer-note strong {
+            color: #475569;
+        }
+
+        .sign-label {
+            font-size: 10px;
+            color: #475569;
+        }
+
+        .sign-gap {
+            margin-top: 44px;
+            margin-bottom: 2px;
+            border-bottom: 1px solid #475569;
+            width: 160px;
+            display: inline-block;
+        }
+
+        .sign-name {
+            font-size: 11px;
+            font-weight: 800;
+            color: #1e293b;
+            margin-top: 3px;
+        }
+
+        .sign-nidn {
+            font-size: 9px;
+            color: #64748b;
+        }
+
+        .sign-title {
+            font-size: 9px;
+            color: #64748b;
+        }
+
+        .watermark {
             position: fixed;
             bottom: 80px;
             right: 40px;
@@ -355,6 +470,7 @@
         }
     </style>
 </head>
+
 <body>
 
     {{-- ════════════════════════════════════════════════════
@@ -370,7 +486,7 @@
 
             {{-- Logo --}}
             <div class="letterhead-logo">
-                <div class="logo-box">P</div>
+                <img src="{{ public_path('img/PintarKan.png') }}" alt="PintarKan">
             </div>
 
             {{-- Platform Identity --}}
@@ -388,21 +504,12 @@
         </div>
     </div>
 
-    {{-- Platform Info Bar --}}
-    <div class="platform-bar">
-        <div class="platform-bar-item"><strong>Platform:</strong> PintarKan LMS</div>
-        <div class="platform-bar-item"><strong>Jenis:</strong> Sistem Manajemen Pembelajaran</div>
-        <div class="platform-bar-item"><strong>Dokumen:</strong> Transkrip Nilai Mahasiswa</div>
-        <div class="platform-bar-item"><strong>Versi:</strong> 1.0</div>
-    </div>
-
     {{-- ════════════════════════════════════════════════════
          DOCUMENT TITLE
     ════════════════════════════════════════════════════ --}}
     <div class="doc-title-block">
         <h1>Transkrip Nilai Akhir Mahasiswa</h1>
         <div class="doc-subtitle">Rekapitulasi Nilai Akhir &amp; Predikat Per Mata Kuliah</div>
-        <div class="doc-title-underline"></div>
     </div>
 
     {{-- ════════════════════════════════════════════════════
@@ -435,11 +542,11 @@
                     <div class="id-value">{{ $lecturer->name ?? '-' }}</div>
                 </div>
                 @if (!empty($lecturer->nidn))
-                <div class="identity-row">
-                    <div class="id-label">NIDN Dosen</div>
-                    <div class="id-colon">:</div>
-                    <div class="id-value">{{ $lecturer->nidn }}</div>
-                </div>
+                    <div class="identity-row">
+                        <div class="id-label">NIDN Dosen</div>
+                        <div class="id-colon">:</div>
+                        <div class="id-value">{{ $lecturer->nidn }}</div>
+                    </div>
                 @endif
                 <div class="identity-row">
                     <div class="id-label">Tanggal Cetak</div>
@@ -462,20 +569,31 @@
          *   D  (Kurang)      : 40% – 54%
          *   E  (Gagal)       : <  40%
          */
-        function getPredikat(float|null $pct): array {
-            if ($pct === null) return ['huruf' => '-', 'label' => 'Belum Ada Nilai', 'class' => 'na'];
-            if ($pct >= 85)    return ['huruf' => 'A', 'label' => 'Sangat Baik', 'class' => 'a'];
-            if ($pct >= 70)    return ['huruf' => 'B', 'label' => 'Baik',        'class' => 'b'];
-            if ($pct >= 55)    return ['huruf' => 'C', 'label' => 'Cukup',       'class' => 'c'];
-            if ($pct >= 40)    return ['huruf' => 'D', 'label' => 'Kurang',      'class' => 'd'];
-            return                    ['huruf' => 'E', 'label' => 'Gagal',       'class' => 'e'];
+        function getPredikat(float|null $pct): array
+        {
+            if ($pct === null) {
+                return ['huruf' => '-', 'label' => 'Belum Ada Nilai', 'class' => 'na'];
+            }
+            if ($pct >= 85) {
+                return ['huruf' => 'A', 'label' => 'Sangat Baik', 'class' => 'a'];
+            }
+            if ($pct >= 70) {
+                return ['huruf' => 'B', 'label' => 'Baik', 'class' => 'b'];
+            }
+            if ($pct >= 55) {
+                return ['huruf' => 'C', 'label' => 'Cukup', 'class' => 'c'];
+            }
+            if ($pct >= 40) {
+                return ['huruf' => 'D', 'label' => 'Kurang', 'class' => 'd'];
+            }
+            return ['huruf' => 'E', 'label' => 'Gagal', 'class' => 'e'];
         }
 
         $overallPredikat = getPredikat($overall_average);
     @endphp
 
     <div class="table-section">
-        <div class="table-section-title">&#9632; Rekap Nilai Akhir Per Mata Kuliah</div>
+        <div class="table-section-title">Rekap Nilai Akhir Per Mata Kuliah</div>
         <table class="grade-table">
             <thead>
                 <tr>
@@ -490,10 +608,10 @@
             <tbody>
                 @foreach ($courses_data as $index => $courseItem)
                     @php
-                        $course      = $courseItem['course'];
-                        $courseAvg   = $courseItem['course_average'];
-                        $totalTugas  = count($courseItem['assignments']);
-                        $predikat    = getPredikat($courseAvg);
+                        $course = $courseItem['course'];
+                        $courseAvg = $courseItem['course_average'];
+                        $totalTugas = count($courseItem['assignments']);
+                        $predikat = getPredikat($courseAvg);
                     @endphp
                     <tr>
                         <td class="center">{{ $index + 1 }}</td>
@@ -552,7 +670,8 @@
             <div class="legend-item"><strong>E</strong> &mdash; Gagal &nbsp;(&lt; 40%)</div>
         </div>
         <div style="font-size: 9px; color: #94a3b8; margin-top: 6px;">
-            * Nilai akhir dihitung berdasarkan persentase rata-rata skor tugas yang telah dinilai terhadap skor maksimum pada setiap mata kuliah yang diikuti mahasiswa di platform PintarKan.
+            * Nilai akhir dihitung berdasarkan persentase rata-rata skor tugas yang telah dinilai terhadap skor maksimum
+            pada setiap mata kuliah yang diikuti mahasiswa di platform PintarKan.
         </div>
     </div>
 
@@ -579,4 +698,5 @@
     </div>
 
 </body>
+
 </html>

@@ -473,6 +473,16 @@
 
                                                 </div>
 
+                                                {{-- Late Submission Status --}}
+                                                <div
+                                                    class="inline-flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium {{ $assignment->allow_late ? 'bg-green-50 border border-green-100 text-green-700' : 'bg-red-50 border border-red-100 text-red-700' }}">
+
+                                                    <i class="fa-solid {{ $assignment->allow_late ? 'fa-circle-check' : 'fa-circle-xmark' }}"></i>
+
+                                                    {{ $assignment->allow_late ? 'Pengumpulan Terlambat Diizinkan' : 'Tenggat Waktu Ketat' }}
+
+                                                </div>
+
                                                 {{-- Score --}}
                                                 <div
                                                     class="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-green-50 border border-green-100 text-green-700 text-sm font-medium">

@@ -91,15 +91,23 @@
                                     {{ \Carbon\Carbon::parse($submission->submitted_at)->translatedFormat('l, d F Y H:i:s') }}
                                 </td>
                             </tr>
-                            <tr>
-                                <th class="px-6 py-4 bg-gray-50 text-left text-sm font-medium text-gray-500 w-1/3">File Tugas</th>
-                                <td class="px-6 py-4 text-sm text-gray-900">
-                                    <a href="{{ Storage::url($submission->file) }}" target="_blank" class="inline-flex items-center text-blue-600 hover:text-blue-800">
-                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
-                                        {{ basename($submission->file) }}
-                                    </a>
-                                </td>
-                            </tr>
+                            @if($submission->file)
+                                <tr>
+                                    <th class="px-6 py-4 bg-gray-50 text-left text-sm font-medium text-gray-500 w-1/3">File Tugas</th>
+                                    <td class="px-6 py-4 text-sm text-gray-900">
+                                        <a href="{{ Storage::url($submission->file) }}" target="_blank" class="inline-flex items-center text-blue-600 hover:text-blue-800">
+                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
+                                            {{ basename($submission->file) }}
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endif
+                            @if($submission->online_text)
+                                <tr>
+                                    <th class="px-6 py-4 bg-gray-50 text-left text-sm font-medium text-gray-500 w-1/3 align-top">Teks Online</th>
+                                    <td class="px-6 py-4 text-sm text-gray-800 bg-gray-50/50 whitespace-pre-wrap border-l-4 border-blue-400 p-4 font-sans">{{ $submission->online_text }}</td>
+                                </tr>
+                            @endif
                         @endif
                         @if($submission && $submission->status === 'graded')
                             <tr>
@@ -122,32 +130,46 @@
             <!-- Upload Form -->
             @if(!$submission || $submission->status !== 'graded')
                 <div class="p-6 border-t border-gray-200 bg-gray-50">
-                    @if($isPast && !$submission)
+                    @if($isPast && !$assignment->allow_late)
                         <div class="flex items-center justify-center p-6 bg-red-50 rounded-lg border border-red-200">
                             <svg class="w-6 h-6 text-red-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                            <span class="text-red-700 font-medium">Batas waktu pengumpulan tugas sudah terlewat. Anda tidak dapat mengirimkan tugas.</span>
+                            <span class="text-red-700 font-medium">Batas waktu pengumpulan tugas sudah terlewat. Anda tidak dapat mengirimkan atau mengubah tugas.</span>
                         </div>
                     @else
-                        <form action="{{ route('student.assignments.submit', $assignment->id) }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('student.assignments.submit', $assignment->id) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
                             @csrf
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium text-gray-700 mb-2">
-                                    {{ $submission ? 'Kirim Ulang File Tugas' : 'Upload File Tugas' }}
+                            
+                            {{-- Online Text --}}
+                            <div class="mb-5">
+                                <label for="online-text" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Teks Online <span class="text-xs text-gray-400 font-normal">(Opsional)</span>
                                 </label>
-                                <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md hover:border-blue-400 transition-colors bg-white">
-                                    <div class="space-y-1 text-center">
+                                <textarea id="online-text" name="online_text" rows="6" placeholder="Ketikkan jawaban Anda di sini jika ingin mengumpulkan teks online..."
+                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 transition bg-white text-gray-900 placeholder-gray-400 text-sm resize-none">{{ old('online_text', $submission->online_text ?? '') }}</textarea>
+                                <p class="text-xs text-gray-400 mt-2">
+                                    Anda dapat menulis teks online, mengunggah berkas file di bawah, atau keduanya.
+                                </p>
+                            </div>
+
+                            {{-- File Upload Drop Zone --}}
+                            <div class="mb-5">
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                    {{ $submission ? 'Kirim Ulang File Tugas' : 'Upload File Tugas' }} <span class="text-xs text-gray-400 font-normal">(Opsional)</span>
+                                </label>
+                                <div id="drop-zone" class="mt-1 flex justify-center px-6 pt-8 pb-8 border-2 border-gray-300 border-dashed rounded-xl hover:border-blue-400 hover:bg-blue-50/10 transition-all bg-white cursor-pointer">
+                                    <div class="space-y-2 text-center">
                                         <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
                                             <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                         </svg>
-                                        <div class="flex text-sm text-gray-600 justify-center">
-                                            <label for="file-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
-                                                <span>Pilih file</span>
-                                                <input id="file-upload" name="file" type="file" class="sr-only" required accept=".pdf,.zip,.rar,.doc,.docx">
+                                        <div class="flex text-sm text-gray-600 justify-center items-center">
+                                            <label for="file-upload" class="relative cursor-pointer bg-white rounded-md font-semibold text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
+                                                <span id="file-upload-text">Pilih file</span>
+                                                <input id="file-upload" name="file" type="file" class="sr-only" accept=".pdf,.zip,.rar,.doc,.docx">
                                             </label>
-                                            <p class="pl-1">atau tarik dan lepas</p>
+                                            <p id="file-drag-text" class="pl-1">atau tarik dan lepas berkas ke sini</p>
                                         </div>
-                                        <p class="text-xs text-gray-500">
-                                            PDF, ZIP, RAR, Word up to 5MB
+                                        <p id="file-info-text" class="text-xs text-gray-500">
+                                            PDF, ZIP, RAR, Word sampai 5MB
                                         </p>
                                     </div>
                                 </div>
@@ -157,7 +179,7 @@
                             </div>
 
                             <div class="flex items-center justify-end">
-                                <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+                                <button type="submit" class="inline-flex justify-center py-2 px-6 border border-transparent shadow-sm text-sm font-semibold rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
                                     {{ $submission ? 'Perbarui Tugas' : 'Kirim Tugas' }}
                                 </button>
                             </div>
@@ -170,13 +192,68 @@
 </div>
 
 <script>
-    // Simple script to display selected file name
-    document.getElementById('file-upload')?.addEventListener('change', function(e) {
-        if(e.target.files.length > 0) {
-            const fileName = e.target.files[0].name;
-            const textElement = this.parentElement.nextElementSibling;
-            if (textElement) {
-                textElement.textContent = fileName;
+    document.addEventListener('DOMContentLoaded', function() {
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-upload');
+        const fileUploadText = document.getElementById('file-upload-text');
+        const fileDragText = document.getElementById('file-drag-text');
+        const fileInfoText = document.getElementById('file-info-text');
+
+        if (dropZone && fileInput) {
+            // Highlight drop zone on drag events
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropZone.addEventListener(eventName, function(e) {
+                    e.preventDefault();
+                    dropZone.classList.add('border-blue-500', 'bg-blue-50/50');
+                }, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, function(e) {
+                    e.preventDefault();
+                    dropZone.classList.remove('border-blue-500', 'bg-blue-50/50');
+                }, false);
+            });
+
+            // Handle dropped files
+            dropZone.addEventListener('drop', function(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+
+                if (files.length > 0) {
+                    fileInput.files = files;
+                    updateFileFeedback(files[0]);
+                }
+            }, false);
+
+            // Click zone behavior (avoid double dialog due to label click)
+            dropZone.addEventListener('click', function(e) {
+                if (e.target !== fileInput && !e.target.closest('label')) {
+                    fileInput.click();
+                }
+            });
+
+            // Update feedback on manual file choice
+            fileInput.addEventListener('change', function(e) {
+                if (fileInput.files.length > 0) {
+                    updateFileFeedback(fileInput.files[0]);
+                } else {
+                    updateFileFeedback(null);
+                }
+            });
+        }
+
+        function updateFileFeedback(file) {
+            if (file) {
+                fileUploadText.textContent = 'Ganti file';
+                fileDragText.textContent = `(${file.name})`;
+                fileDragText.classList.add('text-green-600', 'font-semibold');
+                fileInfoText.textContent = `Ukuran Berkas: ${(file.size / 1024 / 1024).toFixed(2)} MB`;
+            } else {
+                fileUploadText.textContent = 'Pilih file';
+                fileDragText.textContent = 'atau tarik dan lepas berkas ke sini';
+                fileDragText.classList.remove('text-green-600', 'font-semibold');
+                fileInfoText.textContent = 'PDF, ZIP, RAR, Word sampai 5MB';
             }
         }
     });

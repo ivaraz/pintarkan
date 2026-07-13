@@ -37,6 +37,7 @@ class AssignmentController extends Controller
             'description' => 'nullable|string',
             'due_date' => 'required|date',
             'file' => 'nullable|file|max:10240',
+            'allow_late' => 'nullable|boolean',
         ]);
 
         $filePath = null;
@@ -54,6 +55,7 @@ class AssignmentController extends Controller
             'due_date' => $validated['due_date'],
             'max_score' => 100,
             'file' => $filePath,
+            'allow_late' => $request->boolean('allow_late'),
         ]);
 
         return redirect()

@@ -12,7 +12,13 @@ class Assignment extends Model
         'description',
         'due_date',
         'max_score',
-        'file'
+        'file',
+        'allow_late'
+    ];
+
+    protected $casts = [
+        'allow_late' => 'boolean',
+        'due_date' => 'datetime',
     ];
 
     public function course() {

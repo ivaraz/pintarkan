@@ -286,16 +286,6 @@
 
                                                 </a>
 
-                                                {{-- Edit --}}
-                                                <a href="{{ route('lecturer.courses.edit', $course->id) }}"
-                                                    class="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 hover:bg-gray-100 text-gray-700 rounded-xl transition">
-
-                                                    <i class="fa-solid fa-pen"></i>
-
-                                                    Edit
-
-                                                </a>
-
                                             </div>
 
                                         </div>
